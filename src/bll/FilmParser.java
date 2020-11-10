@@ -14,7 +14,6 @@ public class FilmParser {
                 for (int i = 3; i < film.length; i++)
                     film[2] += " " + film[i];
         }
-
         return new Film(film[2],Integer.parseInt(film[1]),Integer.parseInt(film[0]));
     }
 }

@@ -3,6 +3,7 @@ package gui;
 import be.Film;
 import be.FilmRating;
 import bll.FilmSearcher;
+import bll.RatingAvg;
 import dal.FilmDAO;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,6 +24,7 @@ public class UserInterfaceController {
     private ObservableList<Film> films;
     private FilmDAO filmDAO = new FilmDAO();
     private FilmSearcher filmSearcher = new FilmSearcher();
+    private RatingAvg ratingAvg = new RatingAvg();
 
     @FXML
     public TextField searchField;
@@ -70,6 +72,6 @@ public class UserInterfaceController {
     public void changeLabels(Film film){
         filmLabel.setText(film.getTitle().getValue());
         dateLabel.setText(film.getDate().getValue().toString());
-        ratingLabel.setText(film.getAvgRating().toString());
+        ratingLabel.setText(String.valueOf(ratingAvg.getAVGRating(film)));
     }
 }

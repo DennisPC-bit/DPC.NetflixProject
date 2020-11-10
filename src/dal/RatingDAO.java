@@ -37,9 +37,9 @@ public class RatingDAO {
     public double ratingAVG(Film film) {
         if (film != null) {
             int cumulativeRating = 0;
-            double ratings = 0;
+            int ratings = 0;
             for (FilmRating filmrating : ratingsArrayList) {
-                if (filmrating.getFilm() == film) {
+                if (film == filmrating.getFilm()) {
                     ratings++;
                     cumulativeRating += filmrating.getRating();
                 }
