@@ -13,8 +13,10 @@ public class RatingsParser {
         String[] rating=input.split(",");
         for(User user : userDAO.getAllUsers()) {
             for(Film film : filmDAO.getAllFilms())
-            if (user.getId() == Integer.parseInt(rating[0])&&film.getId().getValue()==Integer.parseInt(rating[2]))
+            if (user.getId() == Integer.parseInt(rating[0])&&film.getId().getValue()==Integer.parseInt(rating[2])){
                 user.addFilmRating(Integer.parseInt(rating[2]), film);
+                film.addRating(Integer.parseInt(rating[2]));
+            }
         }
     }
 }

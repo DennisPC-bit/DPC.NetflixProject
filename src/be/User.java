@@ -7,10 +7,9 @@ public class User {
     private int id;
     private ArrayList<FilmRating> filmsRated;
 
-    User(String name, int id, ArrayList<FilmRating> filmsRated){
+    public User(String name, int id){
         this.name=name;
         this.id=id;
-        this.filmsRated=filmsRated;
     }
 
     public String getName() {
