@@ -1,9 +1,9 @@
 package gui;
 
 import be.Film;
+import be.FilmRating;
 import bll.FilmSearcher;
 import dal.FilmDAO;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,10 +11,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class UserInterfaceController {
-
 
     public Label filmLabel;
     public Label dateLabel;
@@ -57,13 +57,19 @@ public class UserInterfaceController {
         this.films = filmDAO.getAllFilms();
     }
 
-    public void search(ActionEvent actionEvent) {
-        if(searchField.getText()!=null)
-            this.films = filmSearcher.searchForFilm(searchField.getText());
+    public void searchWithKey(KeyEvent actionEvent) {search(); }
+    public void searchBtn(ActionEvent actionEvent) {search();}
+
+    private void search() {
+        if(searchField.getText()==null||searchField.getText().equals(""))
+            this.filmTable.setItems(this.films);
+        else
+            this.filmTable.setItems(filmSearcher.searchForFilm(searchField.getText()));
     }
 
     public void changeLabels(Film film){
         filmLabel.setText(film.getTitle().getValue());
         dateLabel.setText(film.getDate().getValue().toString());
+        ratingLabel.setText(String.valueOf(film.getRating(film)));
     }
 }
