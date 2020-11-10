@@ -2,12 +2,12 @@ package be;
 
 public class FilmRating {
     private int rating;
-    private Film movie;
+    private Film film;
 
-    public FilmRating(int rating, Film movie)
+    public FilmRating(int rating, Film film)
     {
         this.rating=rating;
-        this.movie=movie;
+        this.film=film;
     }
 
     public int getRating() {
@@ -18,7 +18,7 @@ public class FilmRating {
         this.rating = rating;
     }
 
-    public Film getMovie() {
-        return movie;
+    public Film getFilm() {
+        return film;
     }
 }

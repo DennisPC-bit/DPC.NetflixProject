@@ -1,5 +1,6 @@
 package dal;
 
+import be.Film;
 import be.FilmRating;
 import bll.RatingsParser;
 import bll.UserParser;
@@ -21,7 +22,7 @@ public class RatingDAO {
                 String line = br.readLine();
                 while (line != null) {
                     if (!line.isEmpty())
-                        ratingsParser.parseRating(line);
+                        ratingsArrayList.add(ratingsParser.parseRating(line));
                     line = br.readLine();
                 }
             } catch (IOException e) {
@@ -31,5 +32,21 @@ public class RatingDAO {
             e.printStackTrace();
         }
         return ratingsArrayList;
+    }
+
+    public double ratingAVG(Film film) {
+        if (film != null) {
+            int cumulativeRating = 0;
+            double ratings = 0;
+            for (FilmRating filmrating : ratingsArrayList) {
+                if (filmrating.getFilm() == film) {
+                    ratings++;
+                    cumulativeRating += filmrating.getRating();
+                }
+            }
+            if (ratings > 0)
+                return (double) cumulativeRating / ratings;
+        }
+        return 0;
     }
 }

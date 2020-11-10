@@ -4,11 +4,13 @@ import be.Film;
 import be.FilmRating;
 import be.User;
 import dal.FilmDAO;
+import dal.RatingDAO;
 import dal.UserDAO;
 
 public class RatingsParser {
     private UserDAO userDAO = new UserDAO();
     private FilmDAO filmDAO = new FilmDAO();
+    private RatingDAO ratingDAO = new RatingDAO();
 
     public FilmRating parseRating(String input){
         String[] rating=input.split(",");
@@ -21,5 +23,9 @@ public class RatingsParser {
             }
         }
         return null;
+    }
+
+    public double getAVGRating(Film film){
+        return ratingDAO.ratingAVG(film);
     }
 }
