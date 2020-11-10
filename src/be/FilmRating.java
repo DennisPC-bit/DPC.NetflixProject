@@ -4,7 +4,7 @@ public class FilmRating {
     private int rating;
     private Film movie;
 
-    FilmRating(int rating, Film movie)
+    public FilmRating(int rating, Film movie)
     {
         this.rating=rating;
         this.movie=movie;
