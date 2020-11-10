@@ -7,13 +7,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 
 public class UserInterfaceController {
 
 
+    public Label filmLabel;
+    public Label dateLabel;
+    public Label ratingLabel;
+    public AnchorPane sidePanel;
     private ObservableList<Film> films;
     private FilmDAO filmDAO = new FilmDAO();
     private FilmSearcher filmSearcher = new FilmSearcher();
@@ -37,6 +43,9 @@ public class UserInterfaceController {
 
         this.filmTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             this.selectedFilm = (Film) newValue;
+            if(selectedFilm!=null) {
+                changeLabels(selectedFilm);
+            }
         });
 
         this.filmColumn.setCellValueFactory(cellData -> cellData.getValue().getTitle());
@@ -51,5 +60,10 @@ public class UserInterfaceController {
     public void search(ActionEvent actionEvent) {
         if(searchField.getText()!=null)
             this.films = filmSearcher.searchForFilm(searchField.getText());
+    }
+
+    public void changeLabels(Film film){
+        filmLabel.setText(film.getTitle().getValue());
+        dateLabel.setText(film.getDate().getValue().toString());
     }
 }
