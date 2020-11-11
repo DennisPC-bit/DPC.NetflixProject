@@ -12,7 +12,11 @@ public class FilmDAO {
 
     private static final String MOVIE_SOURCE = "data/movie_titles.txt";
     ArrayList<Film> films = new ArrayList<>();
-    FilmParser filmParser = new FilmParser();
+    private FilmParser filmParser;
+
+    public FilmDAO(FilmParser filmParser){
+        this.filmParser=filmParser;
+    }
 
     public ObservableList<Film> getAllFilms() {
         File file = new File(MOVIE_SOURCE);
@@ -53,5 +57,20 @@ public class FilmDAO {
             e.printStackTrace();
         }
         return FXCollections.observableArrayList(filmsSearch);
+    }
+
+    public void removeFilm(int id){
+    }
+
+    public ObservableList<Film> addFilm(Film film){
+        films.add(film);
+        File file = new File(MOVIE_SOURCE);
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            bw.write(filmParser.inverseParseFilm(film));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return FXCollections.observableArrayList(films);
     }
 }

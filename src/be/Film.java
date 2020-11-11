@@ -7,11 +7,13 @@ public class Film {
     private SimpleIntegerProperty id;
     private SimpleIntegerProperty date;
     private StringProperty title;
-    private SimpleDoubleProperty avgRating;
+    private double avgRating;
     private int ratingCumulated;
     private int ratings;
 
     public Film(String title, int date, int id){
+        this.ratingCumulated=0;
+        this.ratings=0;
         this.title = new SimpleStringProperty(title);
         this.date = new SimpleIntegerProperty(date);
         this.id = new SimpleIntegerProperty(id);
@@ -40,9 +42,9 @@ public class Film {
     public void addRating(int rating){
         this.ratings++;
         this.ratingCumulated+=rating;
-        this.avgRating = new SimpleDoubleProperty((float)this.ratingCumulated/this.ratings);
+        this.avgRating = (float)this.ratingCumulated/this.ratings;
     }
-    public SimpleDoubleProperty getAvgRating(){
+    public double getAvgRating(){
         return avgRating;
     }
 }

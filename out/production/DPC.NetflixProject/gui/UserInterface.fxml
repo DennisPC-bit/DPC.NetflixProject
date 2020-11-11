@@ -164,7 +164,7 @@
                                     <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <TextField fx:id="searchField" onAction="#searchWithKey" onKeyPressed="#searchWithKey" />
+                                    <TextField fx:id="searchField" onKeyReleased="#searchWithKey" />
                                     <Button mnemonicParsing="false" onAction="#searchBtn" text="Search" GridPane.columnIndex="1" />
                                  </children>
                               </GridPane>

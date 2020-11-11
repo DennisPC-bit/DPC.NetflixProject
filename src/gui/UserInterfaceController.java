@@ -1,10 +1,10 @@
 package gui;
 
 import be.Film;
-import be.FilmRating;
-import bll.FilmSearcher;
-import bll.RatingAvg;
-import dal.FilmDAO;
+import be.User;
+import bll.FilmParser;
+import bll.RatingsParser;
+import bll.UserParser;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,16 +15,25 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
+import java.util.ArrayList;
+
 public class UserInterfaceController {
+
+    public UserInterfaceController(){
+    this.filmParser = new FilmParser(this);
+    this.userParser = new UserParser(this);
+    this.ratingsParser = new RatingsParser(this);
+    }
+
+    private FilmParser filmParser;
+    private UserParser userParser;
+    private RatingsParser ratingsParser;
 
     public Label filmLabel;
     public Label dateLabel;
     public Label ratingLabel;
     public AnchorPane sidePanel;
     private ObservableList<Film> films;
-    private FilmDAO filmDAO = new FilmDAO();
-    private FilmSearcher filmSearcher = new FilmSearcher();
-    private RatingAvg ratingAvg = new RatingAvg();
 
     @FXML
     public TextField searchField;
@@ -55,23 +64,36 @@ public class UserInterfaceController {
         this.movieIdColumn.setCellValueFactory(cellData -> cellData.getValue().getId());
     }
 
+    public ObservableList<Film> getAllFilms() {
+        return filmParser.getAllFilms();
+    }
+
+    public ArrayList<User> getAllUsers(){
+        return userParser.getAllUsers();
+    }
+
     public void loadFilms(){
-        this.films = filmDAO.getAllFilms();
+        this.films = filmParser.getAllFilms();
     }
 
     public void searchWithKey(KeyEvent actionEvent) {search(); }
     public void searchBtn(ActionEvent actionEvent) {search();}
 
     private void search() {
-        if(searchField.getText()==null||searchField.getText().equals(""))
-            this.filmTable.setItems(this.films);
-        else
-            this.filmTable.setItems(filmSearcher.searchForFilm(searchField.getText()));
+        try {
+            if (searchField.getText() == null || searchField.getText().equals(""))
+                this.filmTable.setItems(this.films);
+            else
+                this.filmTable.setItems(filmParser.searchForFilm(searchField.getText()));
+        }
+        catch(IllegalArgumentException e){
+            e.printStackTrace();
+        }
     }
 
     public void changeLabels(Film film){
         filmLabel.setText(film.getTitle().getValue());
         dateLabel.setText(film.getDate().getValue().toString());
-        ratingLabel.setText(String.valueOf(ratingAvg.getAVGRating(film)));
+        ratingLabel.setText(String.valueOf(film.getAvgRating()));
     }
 }
