@@ -18,20 +18,20 @@
       <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <BorderPane BorderPane.alignment="CENTER">
-               <top>
+               <left>
                   <AnchorPane prefHeight="16.0" prefWidth="650.0" BorderPane.alignment="CENTER">
                      <children>
-                        <ButtonBar prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                        <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                           <buttons>
                               <Button mnemonicParsing="false" onAction="#removeFilm" text="Delete" />
-                            <Button mnemonicParsing="false" onAction="#addFilm" text="Add Film" />
-                              <Button mnemonicParsing="false" onAction="#editFilmButton" text="Edit Film" />
+                            <Button mnemonicParsing="false" onAction="#openAddFilmDialog" text="Add Film" />
+                              <Button mnemonicParsing="false" onAction="#openEditFilmDialog" text="Edit Film" />
                               <Button mnemonicParsing="false" text="Load" />
                           </buttons>
                         </ButtonBar>
                      </children>
                   </AnchorPane>
-               </top>
+               </left>
             </BorderPane>
          </top>
          <right>
@@ -160,11 +160,11 @@
                      <center>
                         <AnchorPane BorderPane.alignment="CENTER">
                            <children>
-                              <TableView fx:id="filmTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+                              <TableView fx:id="filmTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <columns>
-                                    <TableColumn fx:id="movieIdColumn" editable="false" prefWidth="75.0" text="Movie ID" />
-                                    <TableColumn fx:id="filmColumn" editable="false" prefWidth="250.0" text="Movie" />
-                                    <TableColumn fx:id="dateColumn" editable="false" prefWidth="75.0" text="Date" />
+                                    <TableColumn fx:id="movieIdColumn" editable="false" prefWidth="75.0" resizable="false" text="Movie ID" />
+                                    <TableColumn fx:id="dateColumn" editable="false" prefWidth="75.0" resizable="false" text="Date" />
+                                    <TableColumn fx:id="filmColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="250.0" prefWidth="-1.0" text="Movie" />
                                  </columns>
                               </TableView>
                            </children>
