@@ -27,6 +27,8 @@ public class Film {
         return this.id.asObject();
     }
 
+    public int getIntId(){return this.id.intValue();}
+
     public StringProperty getTitle() {
         return this.title;
     }

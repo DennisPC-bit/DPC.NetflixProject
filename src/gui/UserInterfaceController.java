@@ -8,14 +8,16 @@ import bll.UserParser;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class UserInterfaceController {
 
@@ -24,6 +26,7 @@ public class UserInterfaceController {
     this.userParser = new UserParser(this);
     this.ratingsParser = new RatingsParser(this);
     }
+
 
     private FilmParser filmParser;
     private UserParser userParser;
@@ -46,6 +49,8 @@ public class UserInterfaceController {
     @FXML
     public TableView filmTable;
     private Film selectedFilm;
+    private Stage addFilmDialogStage;
+    private Stage editFilmDialogStage;
 
     @FXML
     public void initialize(){
@@ -97,4 +102,65 @@ public class UserInterfaceController {
         dateLabel.setText(film.getDate().getValue().toString());
         ratingLabel.setText(String.valueOf(ratingsParser.getRatingsForFilm(film)));
     }
+
+    public void addFilm(Film film){
+        filmParser.addFilm(film);
+    }
+
+    public int getUniqueFilmId(){
+        return filmParser.getUniqueFilmId();
+    }
+
+    public void addFilm(ActionEvent actionEvent) {
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("AddFilmDialog.fxml"));
+        try {
+            AnchorPane addFilmLayout=loader.load();
+            Scene scene=new Scene(addFilmLayout);
+            addFilmDialogStage = new Stage();
+            addFilmDialogStage.setScene(scene);
+            AddFilmDialogController controller = loader.getController();
+            controller.setUserInterfaceController(this);
+            addFilmDialogStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void closeAddFilmDialogStage(){
+        addFilmDialogStage.close();
+    }
+
+    public Stage getAddFilmDialogStage() {
+        return addFilmDialogStage;
+    }
+
+    public void editFilmButton(ActionEvent actionEvent) {
+        if(selectedFilm!=null) {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("EditFilmDialog.fxml"));
+            try {
+                AnchorPane addFilmLayout=loader.load();
+                Scene scene=new Scene(addFilmLayout);
+                editFilmDialogStage = new Stage();
+                editFilmDialogStage.setScene(scene);
+                EditFilmDialogController controller = loader.getController();
+                controller.setUserInterfaceController(this);
+                editFilmDialogStage.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void editFilm(Film film){
+        filmParser.editFilm(film);
+    }
+
+    public Film getSelectedFilm(){
+        return selectedFilm;
+    }
+
+    public void closeEditFilmDialogStage(){
+        editFilmDialogStage.close();
+    }
+
 }

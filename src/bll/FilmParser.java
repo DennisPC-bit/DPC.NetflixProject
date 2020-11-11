@@ -19,7 +19,7 @@ public class FilmParser {
         this.filmData = filmData;
         if (filmData != null) {
             film = filmData.split(",");
-            if (film.length > 3)
+            if (film.length >= 3)
                 for (int i = 3; i < film.length; i++)
                     film[2] += " " + film[i];
         }
@@ -27,7 +27,7 @@ public class FilmParser {
     }
 
     public String inverseParseFilm(Film film){
-        return film.getId() + "," + film.getDate() + "," + film.getTitle();
+        return film.getId().getValue() + "," + film.getDate().getValue() + "," + film.getTitle().getValue();
     }
 
     public ObservableList<Film> getAllFilms(){
@@ -36,5 +36,17 @@ public class FilmParser {
 
     public ObservableList<Film> searchForFilm(String searchString){
         return filmDAO.searchForFilm(searchString);
+    }
+
+    public void addFilm(Film film){
+        filmDAO.addFilm(film);
+    }
+
+    public int getUniqueFilmId(){
+        return filmDAO.getUniqueFilmId();
+    }
+
+    public void editFilm(Film film){
+        filmDAO.editFilm(film);
     }
 }

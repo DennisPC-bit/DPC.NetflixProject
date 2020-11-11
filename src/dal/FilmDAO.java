@@ -7,10 +7,11 @@ import javafx.collections.ObservableList;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class FilmDAO {
 
-    private static final String MOVIE_SOURCE = "data/movie_titles.txt";
+    private static final String FILM_SOURCE = "data/movie_titles.txt";
     ArrayList<Film> films = new ArrayList<>();
     private FilmParser filmParser;
 
@@ -19,13 +20,13 @@ public class FilmDAO {
     }
 
     public ObservableList<Film> getAllFilms() {
-        File file = new File(MOVIE_SOURCE);
+        File file = new File(FILM_SOURCE);
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             try {
                 String line = br.readLine();
                 while (line != null) {
-                    if (!line.isEmpty())
+                    if (!line.isEmpty() && line.split(",").length>=3)
                         films.add(filmParser.parseFilm(line));
                     line = br.readLine();
                 }
@@ -40,7 +41,7 @@ public class FilmDAO {
 
     public ObservableList<Film> searchForFilm(String searchString) {
         ArrayList<Film> filmsSearch = new ArrayList<>();
-        File file = new File(MOVIE_SOURCE);
+        File file = new File(FILM_SOURCE);
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             try {
@@ -62,15 +63,44 @@ public class FilmDAO {
     public void removeFilm(int id){
     }
 
-    public ObservableList<Film> addFilm(Film film){
-        films.add(film);
-        File file = new File(MOVIE_SOURCE);
+    public void addFilm(Film film){
+        File file = new File(FILM_SOURCE);
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             bw.write(filmParser.inverseParseFilm(film));
+            bw.newLine();
+            for(Film filmThatWereAlreadyInTheArray: films){
+                bw.write(filmParser.inverseParseFilm(filmThatWereAlreadyInTheArray));
+                bw.newLine();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return FXCollections.observableArrayList(films);
+    }
+
+    public int getUniqueFilmId(){
+        int index=1;
+        films.sort(Comparator.comparingInt(Film::getIntId));
+        for(Film film:films) {
+            if (film.getIntId() == index)
+                index++;
+        }
+        return index;
+    }
+
+    public void editFilm(Film film){
+        File file = new File(FILM_SOURCE);
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            for(Film filmsCheck: films)
+                if(filmsCheck.getId()==film.getId())
+                    filmsCheck=film;
+            for(Film filmThatWereAlreadyInTheArray: films){
+                bw.write(filmParser.inverseParseFilm(filmThatWereAlreadyInTheArray));
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
