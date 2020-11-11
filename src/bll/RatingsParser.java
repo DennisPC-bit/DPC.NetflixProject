@@ -19,8 +19,8 @@ public class RatingsParser {
     public FilmRating parseRating(String input){
         String[] rating=input.split(",");
             for(Film film : userInterfaceController.getAllFilms())
-            if (film.getId().getValue()==Integer.parseInt(rating[0])){
-                return new FilmRating(Integer.parseInt(rating[2]), film);
+            if (film.getId().getValue()==Integer.parseInt(rating[1])){
+                return new FilmRating(Integer.parseInt(rating[2]), film, Integer.parseInt(rating[1]));
             }
             return  null;
         }
@@ -36,8 +36,8 @@ public class RatingsParser {
         return 0;
     }
 
-    public void getRatingsForFilm(Film film){
-        ratingDAO.getRatingsForFilm(film);
+    public int getRatingsForFilm(Film film){
+        return ratingDAO.getRatingsForFilm(film);
     }
 }
 

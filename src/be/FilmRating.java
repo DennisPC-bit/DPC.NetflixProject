@@ -3,11 +3,17 @@ package be;
 public class FilmRating {
     private int rating;
     private Film film;
+    private int id;
 
-    public FilmRating(int rating, Film film)
+    public FilmRating(int rating, Film film, int id)
     {
         this.rating=rating;
         this.film=film;
+        this.id=id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public int getRating() {

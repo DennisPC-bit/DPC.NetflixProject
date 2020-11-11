@@ -7,6 +7,7 @@ import bll.UserParser;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class RatingDAO {
     private static final String RATINGS_DATA_SOURCE="data/ratings.txt";
@@ -36,22 +37,12 @@ public class RatingDAO {
         return ratingsArrayList;
     }
 
-    public void getRatingsForFilm(Film film){
-        File file = new File(RATINGS_DATA_SOURCE);
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            try {
-                String line = br.readLine();
-                while (line != null) {
-                    if (!line.isEmpty()&&film==ratingsParser.parseRating(line).getFilm())
-                        film.addRating(ratingsParser.parseRating(line).getRating());
-                    line = br.readLine();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    public int getRatingsForFilm(Film film) {
+        ratingsArrayList.sort(Comparator.comparingInt(FilmRating::getId));
+    for(FilmRating filmRating: getAllRatings()){
+        if(film!=null && film.getId()==filmRating.getFilm().getId())
+            film.addRating(filmRating.getRating());
+    }
+    return (int)film.getAvgRating();
     }
 }
