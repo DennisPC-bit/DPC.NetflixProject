@@ -39,9 +39,5 @@ public class RatingsParser {
     public int getRatingsForFilm(Film film){
         return ratingDAO.getRatingsForFilm(film);
     }
-
-
-
-
 }
 

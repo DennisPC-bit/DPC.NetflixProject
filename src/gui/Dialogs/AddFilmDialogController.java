@@ -1,6 +1,7 @@
-package gui;
+package gui.Dialogs;
 
 import be.Film;
+import gui.UserInterfaceController;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 

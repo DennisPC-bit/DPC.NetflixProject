@@ -20,11 +20,9 @@ public class FilmRating {
         return rating;
     }
 
+    public Film getFilm() {return film;}
+
     public void setRating(int rating) {
         this.rating = rating;
-    }
-
-    public Film getFilm() {
-        return film;
     }
 }

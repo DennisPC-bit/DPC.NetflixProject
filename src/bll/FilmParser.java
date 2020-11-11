@@ -15,6 +15,15 @@ public class FilmParser {
     public FilmParser(UserInterfaceController userInterfaceController){
         this.userInterfaceController=userInterfaceController;
     }
+    public ObservableList<Film> getAllFilms(){
+        return filmDAO.getAllFilms();
+    }
+    public ObservableList<Film> getFilms(){
+        return userInterfaceController.getAllFilms();
+    }
+    public int getUniqueFilmId(){
+        return filmDAO.getUniqueFilmId();
+    }
 
     public Film parseFilm(String filmData) {
         this.filmData = filmData;
@@ -31,16 +40,8 @@ public class FilmParser {
         return film.getId().getValue() + "," + film.getDate().getValue() + "," + film.getTitle().getValue();
     }
 
-    public ObservableList<Film> getAllFilms(){
-        return filmDAO.getAllFilms();
-    }
-
     public ObservableList<Film> searchForFilm(String searchString){
         return filmDAO.searchForFilm(searchString);
-    }
-
-    public int getUniqueFilmId(){
-        return filmDAO.getUniqueFilmId();
     }
 
     public void editFilm(Film film){
@@ -49,10 +50,6 @@ public class FilmParser {
 
     public void removeFilm(Film film){
         filmDAO.removeFilm(film);
-    }
-
-    public ObservableList<Film> getFilms(){
-        return userInterfaceController.getAllFilms();
     }
 
     public void addNewFilm(Film film){

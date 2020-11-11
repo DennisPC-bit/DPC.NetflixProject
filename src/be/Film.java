@@ -33,6 +33,10 @@ public class Film {
         return this.title;
     }
 
+    public double getAvgRating(){
+        return avgRating;
+    }
+
     public void setTitle(String title) {
         this.title.set(title);
     }
@@ -45,8 +49,5 @@ public class Film {
         this.ratings++;
         this.ratingCumulated+=rating;
         this.avgRating = (float)this.ratingCumulated/this.ratings;
-    }
-    public double getAvgRating(){
-        return avgRating;
     }
 }

@@ -5,6 +5,8 @@ import be.User;
 import bll.FilmParser;
 import bll.RatingsParser;
 import bll.UserParser;
+import gui.Dialogs.AddFilmDialogController;
+import gui.Dialogs.EditFilmDialogController;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +19,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class UserInterfaceController {
 
@@ -27,30 +28,32 @@ public class UserInterfaceController {
     this.ratingsParser = new RatingsParser(this);
     }
 
-
     private FilmParser filmParser;
     private UserParser userParser;
     private RatingsParser ratingsParser;
 
-    public Label filmLabel;
-    public Label dateLabel;
-    public Label ratingLabel;
-    public AnchorPane sidePanel;
-    private ObservableList<Film> films;
-
     @FXML
-    public TextField searchField;
+    private Label filmLabel;
     @FXML
-    public TableColumn<Film, Integer> dateColumn;
+    private Label dateLabel;
     @FXML
-    public TableColumn<Film,String> filmColumn;
+    private Label ratingLabel;
     @FXML
-    public TableColumn<Film,Integer> movieIdColumn;
+    private AnchorPane sidePanel;
     @FXML
-    public TableView filmTable;
+    private TextField searchField;
+    @FXML
+    private TableColumn<Film, Integer> dateColumn;
+    @FXML
+    private TableColumn<Film,String> filmColumn;
+    @FXML
+    private TableColumn<Film,Integer> movieIdColumn;
+    @FXML
+    private TableView filmTable;
     private Film selectedFilm;
     private Stage addFilmDialogStage;
     private Stage editFilmDialogStage;
+    private ObservableList<Film> films;
 
     @FXML
     public void initialize(){
@@ -61,7 +64,6 @@ public class UserInterfaceController {
             this.selectedFilm = (Film) newValue;
             if(selectedFilm!=null) {changeLabels(selectedFilm);}
         });
-
         this.filmColumn.setCellValueFactory(cellData -> cellData.getValue().getTitle());
         this.dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDate());
         this.movieIdColumn.setCellValueFactory(cellData -> cellData.getValue().getId());
@@ -104,8 +106,16 @@ public class UserInterfaceController {
     public void addNewFilm(Film film){filmParser.addNewFilm(film);
         films.add(film);}
 
-    public void addFilm(ActionEvent actionEvent) {
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("AddFilmDialog.fxml"));
+    public void editFilm(Film film){
+        filmParser.editFilm(film);
+    }
+
+    public void removeFilm(ActionEvent actionEvent) {
+        filmParser.removeFilm(selectedFilm);
+        films.remove(selectedFilm);}
+
+    public void openAddFilmDialog(ActionEvent actionEvent) {
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("Dialogs/AddFilmDialog.fxml"));
         try {
             AnchorPane addFilmLayout=loader.load();
             Scene scene=new Scene(addFilmLayout);
@@ -113,7 +123,7 @@ public class UserInterfaceController {
             addFilmDialogStage.setScene(scene);
             AddFilmDialogController controller = loader.getController();
             controller.setUserInterfaceController(this);
-            addFilmDialogStage.showAndWait();
+            addFilmDialogStage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -124,9 +134,9 @@ public class UserInterfaceController {
         addFilmDialogStage.close();
     }
 
-    public void editFilmButton(ActionEvent actionEvent) {
+    public void openEditFilmDialog(ActionEvent actionEvent) {
         if(selectedFilm!=null) {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("EditFilmDialog.fxml"));
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("Dialogs/EditFilmDialog.fxml"));
             try {
                 AnchorPane addFilmLayout=loader.load();
                 Scene scene=new Scene(addFilmLayout);
@@ -134,24 +144,15 @@ public class UserInterfaceController {
                 editFilmDialogStage.setScene(scene);
                 EditFilmDialogController controller = loader.getController();
                 controller.setUserInterfaceController(this);
-                editFilmDialogStage.showAndWait();
+                editFilmDialogStage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public void editFilm(Film film){
-        filmParser.editFilm(film);
-    }
-
     public void closeEditFilmDialogStage(){
         editFilmDialogStage.close();
-    }
-
-    public void removeFilm(ActionEvent actionEvent) {
-        filmParser.removeFilm(selectedFilm);
-        films.remove(selectedFilm);
     }
 }
 

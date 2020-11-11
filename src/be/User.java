@@ -16,16 +16,16 @@ public class User {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getId() {
         return id;
     }
 
     public ArrayList<FilmRating> getFilmsRated() {
         return filmsRated;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void addFilmRating(int rating, Film film){

@@ -35,8 +35,8 @@
                             <Menu mnemonicParsing="false" text="Edit">
                               <items>
                                 <MenuItem mnemonicParsing="false" onAction="#removeFilm" text="Delete" />
-                                    <MenuItem mnemonicParsing="false" onAction="#addFilm" text="Add Movie" />
-                                    <MenuItem mnemonicParsing="false" onAction="#editFilmButton" text="Edit Film" />
+                                    <MenuItem mnemonicParsing="false" onAction="#openAddFilmDialog" text="Add Movie" />
+                                    <MenuItem mnemonicParsing="false" onAction="#openEditFilmDialog" text="Edit Film" />
                               </items>
                             </Menu>
                               <Menu mnemonicParsing="false" text="Sort">
