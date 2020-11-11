@@ -95,5 +95,6 @@ public class UserInterfaceController {
     public void changeLabels(Film film){
         filmLabel.setText(film.getTitle().getValue());
         dateLabel.setText(film.getDate().getValue().toString());
+        ratingLabel.setText(String.valueOf(ratingsParser.getRatingsForFilm(film)));
     }
 }

@@ -19,10 +19,10 @@ public class RatingsParser {
     public FilmRating parseRating(String input){
         String[] rating=input.split(",");
             for(Film film : userInterfaceController.getAllFilms())
-            if (film.getId().getValue()==Integer.parseInt(rating[1])){
+            if (film.getId().get()==Integer.parseInt(rating[1])){
                 return new FilmRating(Integer.parseInt(rating[2]), film, Integer.parseInt(rating[1]));
             }
-            return  null;
+            return null;
         }
 
     public double ratingAVG(Film film) {
