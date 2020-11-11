@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -21,31 +19,16 @@
          <top>
             <BorderPane BorderPane.alignment="CENTER">
                <top>
-                  <AnchorPane BorderPane.alignment="CENTER">
+                  <AnchorPane prefHeight="16.0" prefWidth="650.0" BorderPane.alignment="CENTER">
                      <children>
-                        <MenuBar AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <menus>
-                            <Menu mnemonicParsing="false" text="File">
-                              <items>
-                                    <MenuItem mnemonicParsing="false" text="Save" />
-                                <MenuItem mnemonicParsing="false" text="Close" />
-                                    <MenuItem mnemonicParsing="false" text="Load" />
-                              </items>
-                            </Menu>
-                            <Menu mnemonicParsing="false" text="Edit">
-                              <items>
-                                <MenuItem mnemonicParsing="false" onAction="#removeFilm" text="Delete" />
-                                    <MenuItem mnemonicParsing="false" onAction="#openAddFilmDialog" text="Add Movie" />
-                                    <MenuItem mnemonicParsing="false" onAction="#openEditFilmDialog" text="Edit Film" />
-                              </items>
-                            </Menu>
-                              <Menu mnemonicParsing="false" text="Sort">
-                                <items>
-                                  <MenuItem mnemonicParsing="false" text="Action 1" />
-                                </items>
-                              </Menu>
-                          </menus>
-                        </MenuBar>
+                        <ButtonBar prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                          <buttons>
+                              <Button mnemonicParsing="false" onAction="#removeFilm" text="Delete" />
+                            <Button mnemonicParsing="false" onAction="#addFilm" text="Add Film" />
+                              <Button mnemonicParsing="false" onAction="#editFilmButton" text="Edit Film" />
+                              <Button mnemonicParsing="false" text="Load" />
+                          </buttons>
+                        </ButtonBar>
                      </children>
                   </AnchorPane>
                </top>
@@ -164,20 +147,28 @@
                                  </rowConstraints>
                                  <children>
                                     <TextField fx:id="searchField" onKeyReleased="#searchWithKey" promptText="Search for a movie" />
-                                    <Button mnemonicParsing="false" onAction="#searchBtn" text="Clear" GridPane.columnIndex="1" />
+                                    <AnchorPane GridPane.columnIndex="1">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#searchBtn" prefHeight="25.0" prefWidth="114.0" text="Clear" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
                                  </children>
                               </GridPane>
                            </children>
                         </AnchorPane>
                      </top>
                      <center>
-                        <TableView fx:id="filmTable" BorderPane.alignment="CENTER">
-                           <columns>
-                              <TableColumn fx:id="movieIdColumn" editable="false" prefWidth="75.0" text="Movie ID" />
-                              <TableColumn fx:id="filmColumn" editable="false" prefWidth="250.0" text="Movie" />
-                              <TableColumn fx:id="dateColumn" editable="false" prefWidth="75.0" text="Date" />
-                           </columns>
-                        </TableView>
+                        <AnchorPane BorderPane.alignment="CENTER">
+                           <children>
+                              <TableView fx:id="filmTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+                                 <columns>
+                                    <TableColumn fx:id="movieIdColumn" editable="false" prefWidth="75.0" text="Movie ID" />
+                                    <TableColumn fx:id="filmColumn" editable="false" prefWidth="250.0" text="Movie" />
+                                    <TableColumn fx:id="dateColumn" editable="false" prefWidth="75.0" text="Date" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
                      </center>
                   </BorderPane>
                </children>
