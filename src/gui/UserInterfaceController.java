@@ -59,9 +59,7 @@ public class UserInterfaceController {
 
         this.filmTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             this.selectedFilm = (Film) newValue;
-            if(selectedFilm!=null) {
-                changeLabels(selectedFilm);
-            }
+            if(selectedFilm!=null) {changeLabels(selectedFilm);}
         });
 
         this.filmColumn.setCellValueFactory(cellData -> cellData.getValue().getTitle());
@@ -72,11 +70,12 @@ public class UserInterfaceController {
     public ObservableList<Film> getAllFilms() {
         return filmParser.getAllFilms();
     }
-
     public ArrayList<User> getAllUsers(){
         return userParser.getAllUsers();
     }
-
+    public int getUniqueFilmId(){return filmParser.getUniqueFilmId();}
+    public Film getSelectedFilm(){return selectedFilm;}
+    public Stage getAddFilmDialogStage() {return addFilmDialogStage;}
     public void loadFilms(){
         this.films = filmParser.getAllFilms();
     }
@@ -100,16 +99,10 @@ public class UserInterfaceController {
     public void changeLabels(Film film){
         filmLabel.setText(film.getTitle().getValue());
         dateLabel.setText(film.getDate().getValue().toString());
-        ratingLabel.setText(String.valueOf(ratingsParser.getRatingsForFilm(film)));
     }
 
-    public void addFilm(Film film){
-        filmParser.addFilm(film);
-    }
-
-    public int getUniqueFilmId(){
-        return filmParser.getUniqueFilmId();
-    }
+    public void addNewFilm(Film film){filmParser.addNewFilm(film);
+        films.add(film);}
 
     public void addFilm(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("AddFilmDialog.fxml"));
@@ -131,10 +124,6 @@ public class UserInterfaceController {
         addFilmDialogStage.close();
     }
 
-    public Stage getAddFilmDialogStage() {
-        return addFilmDialogStage;
-    }
-
     public void editFilmButton(ActionEvent actionEvent) {
         if(selectedFilm!=null) {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("EditFilmDialog.fxml"));
@@ -151,16 +140,18 @@ public class UserInterfaceController {
             }
         }
     }
+
     public void editFilm(Film film){
         filmParser.editFilm(film);
-    }
-
-    public Film getSelectedFilm(){
-        return selectedFilm;
     }
 
     public void closeEditFilmDialogStage(){
         editFilmDialogStage.close();
     }
 
+    public void removeFilm(ActionEvent actionEvent) {
+        filmParser.removeFilm(selectedFilm);
+        films.remove(selectedFilm);
+    }
 }
+

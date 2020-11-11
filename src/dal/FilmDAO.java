@@ -19,6 +19,16 @@ public class FilmDAO {
         this.filmParser=filmParser;
     }
 
+    public int getUniqueFilmId(){
+        int index=1;
+        films.sort(Comparator.comparingInt(Film::getIntId));
+        for(Film film:films) {
+            if (film.getIntId() == index)
+                index++;
+        }
+        return index;
+    }
+
     public ObservableList<Film> getAllFilms() {
         File file = new File(FILM_SOURCE);
         try {
@@ -60,43 +70,31 @@ public class FilmDAO {
         return FXCollections.observableArrayList(filmsSearch);
     }
 
-    public void removeFilm(int id){
-    }
-
-    public void addFilm(Film film){
-        File file = new File(FILM_SOURCE);
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-            bw.write(filmParser.inverseParseFilm(film));
-            bw.newLine();
-            for(Film filmThatWereAlreadyInTheArray: films){
-                bw.write(filmParser.inverseParseFilm(filmThatWereAlreadyInTheArray));
-                bw.newLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public int getUniqueFilmId(){
-        int index=1;
-        films.sort(Comparator.comparingInt(Film::getIntId));
-        for(Film film:films) {
-            if (film.getIntId() == index)
-                index++;
-        }
-        return index;
-    }
-
     public void editFilm(Film film){
+        for(Film filmsCheck: films){
+            if(filmsCheck.getId()==film.getId())
+                filmsCheck=film;
+        }
+        saveFilmChanges();
+    }
+
+    public void removeFilm(Film film){
+        films.remove(film);
+        saveFilmChanges();
+    }
+
+    public void addNewFilm(Film film){
+        films.add(film);
+        saveFilmChanges();
+    }
+
+    public void saveFilmChanges(){
+        films.sort(Comparator.comparingInt(Film::getIntId));
         File file = new File(FILM_SOURCE);
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-            for(Film filmsCheck: films)
-                if(filmsCheck.getId()==film.getId())
-                    filmsCheck=film;
-            for(Film filmThatWereAlreadyInTheArray: films){
-                bw.write(filmParser.inverseParseFilm(filmThatWereAlreadyInTheArray));
+            for(Film filmsInCurrentArray: films){
+                bw.write(filmParser.inverseParseFilm(filmsInCurrentArray));
                 bw.newLine();
             }
         } catch (IOException e) {

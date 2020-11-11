@@ -34,15 +34,15 @@
                      <children>
                         <TextField fx:id="titlefield" promptText="Title" GridPane.columnIndex="1" />
                         <TextField fx:id="yearField" promptText="Year" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label text="Movie title:" />
-                        <Label text="Movie Year" GridPane.rowIndex="1" />
+                        <Label text="Film title:" />
+                        <Label text="Film Year" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                </children>
             </AnchorPane>
             <AnchorPane GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <children>
-                  <Label alignment="CENTER" text="Add Movie" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Label alignment="CENTER" text="Add Film" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
             <GridPane GridPane.rowIndex="2">

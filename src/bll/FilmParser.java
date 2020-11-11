@@ -1,6 +1,7 @@
 package bll;
 
 import be.Film;
+import com.sun.javafx.tk.Toolkit;
 import dal.FilmDAO;
 import gui.UserInterfaceController;
 import javafx.collections.ObservableList;
@@ -38,15 +39,23 @@ public class FilmParser {
         return filmDAO.searchForFilm(searchString);
     }
 
-    public void addFilm(Film film){
-        filmDAO.addFilm(film);
-    }
-
     public int getUniqueFilmId(){
         return filmDAO.getUniqueFilmId();
     }
 
     public void editFilm(Film film){
         filmDAO.editFilm(film);
+    }
+
+    public void removeFilm(Film film){
+        filmDAO.removeFilm(film);
+    }
+
+    public ObservableList<Film> getFilms(){
+        return userInterfaceController.getAllFilms();
+    }
+
+    public void addNewFilm(Film film){
+        filmDAO.addNewFilm(film);
     }
 }

@@ -25,6 +25,7 @@ public class EditFilmDialogController {
                 userInterfaceController.closeEditFilmDialogStage();
             }
         }
+        else
         userInterfaceController.closeAddFilmDialogStage();
     }
 

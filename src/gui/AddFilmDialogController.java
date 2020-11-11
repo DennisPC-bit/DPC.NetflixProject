@@ -16,7 +16,7 @@ public class AddFilmDialogController {
     public void confirmButton(ActionEvent actionEvent) {
         if(titlefield!=null&&yearField!=null){
             if(!titlefield.getText().isEmpty()&&!yearField.getText().isEmpty()) {
-                userInterfaceController.addFilm(new Film(titlefield.getText(), Integer.parseInt(yearField.getText()), userInterfaceController.getUniqueFilmId()));
+                userInterfaceController.addNewFilm(new Film(titlefield.getText(), Integer.parseInt(yearField.getText()), userInterfaceController.getUniqueFilmId()));
                 userInterfaceController.closeAddFilmDialogStage();
             }
         }
