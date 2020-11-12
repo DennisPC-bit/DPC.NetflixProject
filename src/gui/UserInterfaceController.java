@@ -37,10 +37,6 @@ public class UserInterfaceController {
     @FXML
     private Label dateLabel;
     @FXML
-    private Label ratingLabel;
-    @FXML
-    private AnchorPane sidePanel;
-    @FXML
     private TextField searchField;
     @FXML
     private TableColumn<Film, Integer> dateColumn;
