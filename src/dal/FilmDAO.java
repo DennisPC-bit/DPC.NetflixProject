@@ -1,7 +1,7 @@
 package dal;
 
 import be.Film;
-import bll.FilmParser;
+import bll.FilmManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -13,9 +13,9 @@ public class FilmDAO {
 
     private static final String FILM_SOURCE = "data/movie_titles.txt";
     ArrayList<Film> films = new ArrayList<>();
-    private FilmParser filmParser;
+    private FilmManager filmParser;
 
-    public FilmDAO(FilmParser filmParser){
+    public FilmDAO(FilmManager filmParser){
         this.filmParser=filmParser;
     }
 

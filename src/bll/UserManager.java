@@ -5,11 +5,11 @@ import dal.UserDAO;
 import gui.UserInterfaceController;
 import java.util.ArrayList;
 
-public class UserParser {
+public class UserManager {
     private UserDAO userDAO=new UserDAO(this);
     private UserInterfaceController userInterfaceController;
 
-    public UserParser(UserInterfaceController userInterfaceController){
+    public UserManager(UserInterfaceController userInterfaceController){
         this.userInterfaceController=userInterfaceController;
     }
 

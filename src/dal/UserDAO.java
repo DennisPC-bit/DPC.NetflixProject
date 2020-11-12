@@ -1,14 +1,14 @@
 package dal;
 import be.User;
-import bll.UserParser;
+import bll.UserManager;
 import java.io.*;
 import java.util.ArrayList;
 
 public class UserDAO {
     private static final String USER_DATA_SOURCE="data/users.txt";
     private ArrayList<User> userArrayList= new ArrayList<User>();
-    private UserParser userParser;
-    public UserDAO(UserParser userParser){
+    private UserManager userParser;
+    public UserDAO(UserManager userParser){
         this.userParser = userParser;
     }
 

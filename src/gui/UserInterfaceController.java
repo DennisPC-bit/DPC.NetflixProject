@@ -2,9 +2,9 @@ package gui;
 
 import be.Film;
 import be.User;
-import bll.FilmParser;
-import bll.RatingsParser;
-import bll.UserParser;
+import bll.FilmManager;
+import bll.RatingsManager;
+import bll.UserManager;
 import gui.Dialogs.AddFilmDialogController;
 import gui.Dialogs.EditFilmDialogController;
 import javafx.collections.ObservableList;
@@ -23,14 +23,14 @@ import java.util.ArrayList;
 public class UserInterfaceController {
 
     public UserInterfaceController(){
-    this.filmParser = new FilmParser(this);
-    this.userParser = new UserParser(this);
-    this.ratingsParser = new RatingsParser(this);
+    this.filmParser = new FilmManager(this);
+    this.userParser = new UserManager(this);
+    this.ratingsParser = new RatingsManager(this);
     }
 
-    private FilmParser filmParser;
-    private UserParser userParser;
-    private RatingsParser ratingsParser;
+    private FilmManager filmParser;
+    private UserManager userParser;
+    private RatingsManager ratingsParser;
 
     @FXML
     private Label filmLabel;

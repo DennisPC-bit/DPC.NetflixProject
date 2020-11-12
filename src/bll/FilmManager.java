@@ -6,13 +6,13 @@ import dal.FilmDAO;
 import gui.UserInterfaceController;
 import javafx.collections.ObservableList;
 
-public class FilmParser {
+public class FilmManager {
     private String filmData;
     private String[] film;
     private FilmDAO filmDAO = new FilmDAO(this);
     private UserInterfaceController userInterfaceController;
 
-    public FilmParser(UserInterfaceController userInterfaceController){
+    public FilmManager(UserInterfaceController userInterfaceController){
         this.userInterfaceController=userInterfaceController;
     }
     public ObservableList<Film> getAllFilms(){
