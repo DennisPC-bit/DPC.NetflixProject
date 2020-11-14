@@ -108,7 +108,8 @@ public class UserInterfaceController {
 
     public void removeFilm(ActionEvent actionEvent) {
         filmParser.removeFilm(selectedFilm);
-        films.remove(selectedFilm);}
+        films.remove(selectedFilm);
+    }
 
     public void openAddFilmDialog(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("Dialogs/AddFilmDialog.fxml"));

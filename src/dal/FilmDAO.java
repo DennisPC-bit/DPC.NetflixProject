@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class FilmDAO {
-    private boolean autoSave = true;
+    private boolean autoSave;
 
     private static final String FILM_SOURCE = "data/movie_titles.txt";
     ArrayList<Film> films = new ArrayList<>();
@@ -18,6 +18,7 @@ public class FilmDAO {
 
     public FilmDAO(FilmManager filmParser){
         this.filmParser=filmParser;
+        this.autoSave=true;
     }
 
     public int getUniqueFilmId(){
