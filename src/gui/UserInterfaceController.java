@@ -115,6 +115,7 @@ public class UserInterfaceController {
         films.add(film);
         films.sort(Comparator.comparingInt(Film::getIntId));
         filmParser.saveFilmChanges(autoSave);
+        break;
         }
     }
 
@@ -124,6 +125,7 @@ public class UserInterfaceController {
                 films.remove(filmCheck);
                 films.sort(Comparator.comparingInt(Film::getIntId));
                 filmParser.saveFilmChanges(autoSave);
+                break;
         }
     }
     }
