@@ -19,6 +19,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.ConcurrentModificationException;
 
 public class UserInterfaceController {
 
@@ -26,6 +28,7 @@ public class UserInterfaceController {
     this.filmParser = new FilmManager(this);
     this.userParser = new UserManager(this);
     this.ratingsParser = new RatingsManager(this);
+    this.autoSave=true;
     }
 
     private FilmManager filmParser;
@@ -50,6 +53,7 @@ public class UserInterfaceController {
     private Stage addFilmDialogStage;
     private Stage editFilmDialogStage;
     private ObservableList<Film> films;
+    private boolean autoSave;
 
     @FXML
     public void initialize(){
@@ -66,7 +70,7 @@ public class UserInterfaceController {
     }
 
     public ObservableList<Film> getAllFilms() {
-        return filmParser.getAllFilms();
+        return this.films;
     }
     public ArrayList<User> getAllUsers(){
         return userParser.getAllUsers();
@@ -99,16 +103,29 @@ public class UserInterfaceController {
         dateLabel.setText(film.getDate().getValue().toString());
     }
 
-    public void addNewFilm(Film film){filmParser.addNewFilm(film);
-        films.add(film);}
+    public void addNewFilm(Film film){
+        films.add(film);
+        films.sort(Comparator.comparingInt(Film::getIntId));
+        filmParser.saveFilmChanges(autoSave);}
 
     public void editFilm(Film film){
-        filmParser.editFilm(film);
+        for(Film filmCheck: films)
+        if(filmCheck.getIntId()==film.getIntId()){
+        films.remove(filmCheck);
+        films.add(film);
+        films.sort(Comparator.comparingInt(Film::getIntId));
+        filmParser.saveFilmChanges(autoSave);
+        }
     }
 
     public void removeFilm(ActionEvent actionEvent) {
-        filmParser.removeFilm(selectedFilm);
-        films.remove(selectedFilm);
+        for(Film filmCheck: films){
+            if(filmCheck.getIntId()== selectedFilm.getIntId()){
+                films.remove(filmCheck);
+                films.sort(Comparator.comparingInt(Film::getIntId));
+                filmParser.saveFilmChanges(autoSave);
+        }
+    }
     }
 
     public void openAddFilmDialog(ActionEvent actionEvent) {
@@ -153,11 +170,11 @@ public class UserInterfaceController {
     }
 
     public void useSaveButton(ActionEvent actionEvent) {
-        filmParser.saveFilmChanges();
+        filmParser.saveFilmChanges(true);
     }
 
     public void toggleAutoSave(ActionEvent actionEvent) {
-        filmParser.toggleAutoSave();
+            autoSave=!autoSave;
     }
 }
 

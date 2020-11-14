@@ -29,7 +29,7 @@ public class FilmManager {
         this.filmData = filmData;
         if (filmData != null) {
             film = filmData.split(",");
-            if (film.length >= 3)
+            if (film.length >= 2)
                 for (int i = 3; i < film.length; i++)
                     film[2] += " " + film[i];
         }
@@ -44,23 +44,7 @@ public class FilmManager {
         return filmDAO.searchForFilm(searchString);
     }
 
-    public void editFilm(Film film){
-        filmDAO.editFilm(film);
-    }
-
-    public void removeFilm(Film film){
-        filmDAO.removeFilm(film);
-    }
-
-    public void addNewFilm(Film film){
-        filmDAO.addNewFilm(film);
-    }
-
-    public void toggleAutoSave(){
-        filmDAO.toggleAutoSave();
-    }
-
-    public void saveFilmChanges(){
-        filmDAO.saveFilmChanges(true);
+    public void saveFilmChanges(boolean save){
+        filmDAO.saveFilmChanges(save);
     }
 }

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class FilmDAO {
-    private boolean autoSave;
 
     private static final String FILM_SOURCE = "data/movie_titles.txt";
     ArrayList<Film> films = new ArrayList<>();
@@ -18,7 +17,6 @@ public class FilmDAO {
 
     public FilmDAO(FilmManager filmParser){
         this.filmParser=filmParser;
-        this.autoSave=true;
     }
 
     public int getUniqueFilmId(){
@@ -72,31 +70,13 @@ public class FilmDAO {
         return FXCollections.observableArrayList(filmsSearch);
     }
 
-    public void editFilm(Film film){
-        for(Film filmsCheck: films){
-            if(filmsCheck.getId()==film.getId())
-                filmsCheck=film;
-        }
-        saveFilmChanges(autoSave);
-    }
-
-    public void removeFilm(Film film){
-        films.remove(film);
-        saveFilmChanges(autoSave);
-    }
-
-    public void addNewFilm(Film film){
-        films.add(film);
-        saveFilmChanges(autoSave);
-    }
-
     public void saveFilmChanges(boolean save){
         if(save){
         films.sort(Comparator.comparingInt(Film::getIntId));
         File file = new File(FILM_SOURCE);
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-            for(Film filmsInCurrentArray: films){
+            for(Film filmsInCurrentArray: filmParser.getFilms()){
                 bw.write(filmParser.inverseParseFilm(filmsInCurrentArray));
                 bw.newLine();
             }
@@ -104,9 +84,5 @@ public class FilmDAO {
             e.printStackTrace();
         }
     }
-    }
-
-    public void toggleAutoSave(){
-        autoSave=!autoSave;
     }
 }
