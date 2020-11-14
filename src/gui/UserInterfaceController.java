@@ -20,21 +20,18 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.ConcurrentModificationException;
 
 public class UserInterfaceController {
 
     public UserInterfaceController(){
-    this.filmParser = new FilmManager(this);
-    this.userParser = new UserManager(this);
-    this.ratingsParser = new RatingsManager(this);
+    this.filmManager = new FilmManager(this);
+    this.userManager = new UserManager(this);
+    this.ratingsManager = new RatingsManager(this);
     this.autoSave=true;
     }
-
-    private FilmManager filmParser;
-    private UserManager userParser;
-    private RatingsManager ratingsParser;
-
+    private FilmManager filmManager;
+    private UserManager userManager;
+    private RatingsManager ratingsManager;
     @FXML
     private Label filmLabel;
     @FXML
@@ -49,14 +46,17 @@ public class UserInterfaceController {
     private TableColumn<Film,Integer> movieIdColumn;
     @FXML
     private TableView filmTable;
+    @FXML
     private Film selectedFilm;
+    @FXML
     private Stage addFilmDialogStage;
+    @FXML
     private Stage editFilmDialogStage;
     private ObservableList<Film> films;
     private boolean autoSave;
 
     @FXML
-    public void initialize(){
+    private void initialize(){
         this.loadFilms();
         this.filmTable.setItems(this.films);
 
@@ -72,14 +72,16 @@ public class UserInterfaceController {
     public ObservableList<Film> getAllFilms() {
         return this.films;
     }
+
     public ArrayList<User> getAllUsers(){
-        return userParser.getAllUsers();
+        return userManager.getAllUsers();
     }
-    public int getUniqueFilmId(){return filmParser.getUniqueFilmId();}
+
+    public int getUniqueFilmId(){return filmManager.getUniqueFilmId();}
     public Film getSelectedFilm(){return selectedFilm;}
     public Stage getAddFilmDialogStage() {return addFilmDialogStage;}
     public void loadFilms(){
-        this.films = filmParser.getAllFilms();
+        this.films = filmManager.getAllFilms();
     }
 
     public void searchWithKey(KeyEvent actionEvent) {search(); }
@@ -91,7 +93,7 @@ public class UserInterfaceController {
             if (searchField.getText() == null || searchField.getText().equals(""))
                 this.filmTable.setItems(this.films);
             else
-                this.filmTable.setItems(filmParser.searchForFilm(searchField.getText()));
+                this.filmTable.setItems(filmManager.searchForFilm(searchField.getText()));
         }
         catch(IllegalArgumentException e){
             e.printStackTrace();
@@ -106,7 +108,7 @@ public class UserInterfaceController {
     public void addNewFilm(Film film){
         films.add(film);
         films.sort(Comparator.comparingInt(Film::getIntId));
-        filmParser.saveFilmChanges(autoSave);}
+        filmManager.saveFilmChanges(autoSave);}
 
     public void editFilm(Film film){
         for(Film filmCheck: films)
@@ -114,7 +116,7 @@ public class UserInterfaceController {
         films.remove(filmCheck);
         films.add(film);
         films.sort(Comparator.comparingInt(Film::getIntId));
-        filmParser.saveFilmChanges(autoSave);
+        filmManager.saveFilmChanges(autoSave);
         break;
         }
     }
@@ -124,7 +126,7 @@ public class UserInterfaceController {
             if(filmCheck.getIntId()== selectedFilm.getIntId()){
                 films.remove(filmCheck);
                 films.sort(Comparator.comparingInt(Film::getIntId));
-                filmParser.saveFilmChanges(autoSave);
+                filmManager.saveFilmChanges(autoSave);
                 break;
         }
     }
@@ -172,7 +174,7 @@ public class UserInterfaceController {
     }
 
     public void useSaveButton(ActionEvent actionEvent) {
-        filmParser.saveFilmChanges(true);
+        filmManager.saveFilmChanges(true);
     }
 
     public void toggleAutoSave(ActionEvent actionEvent) {
