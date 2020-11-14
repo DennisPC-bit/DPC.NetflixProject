@@ -33,7 +33,7 @@ public class FilmManager {
                 for (int i = 3; i < film.length; i++)
                     film[2] += " " + film[i];
         }
-        return new Film(film[2],Integer.parseInt(film[1]),Integer.parseInt(film[0]));
+        return new Film(Integer.parseInt(film[0]),Integer.parseInt(film[1]),film[2]);
     }
 
     public String inverseParseFilm(Film film){

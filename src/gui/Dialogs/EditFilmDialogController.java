@@ -20,7 +20,7 @@ public class EditFilmDialogController {
     public void confirmButton(ActionEvent actionEvent) {
         if(titlefield!=null&&yearField!=null){
             if(!titlefield.getText().isEmpty()&&!yearField.getText().isEmpty()) {
-                Film editedFilm= userInterfaceController.getSelectedFilm();
+                Film editedFilm = userInterfaceController.getSelectedFilm();
                 try{
                 editedFilm.setTitle(titlefield.getText());
                 editedFilm.setDate(Integer.parseInt(yearField.getText()));

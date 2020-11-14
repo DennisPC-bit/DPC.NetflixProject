@@ -36,29 +36,6 @@ public class RatingDAO {
         return ratingsArrayList;
     }
 
-    public int getRatingsForFilm(Film film) {
-        int cumulativeRating=0;
-        int ratings=0;
-        File file = new File(RATINGS_DATA_SOURCE);
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            try {
-                String line = br.readLine();
-                while (line != null) {
-                    if (!line.isEmpty()&& ratingsManager.parseRating(line).getFilmId()==film.getIntId())
-                        cumulativeRating+= ratingsManager.parseRating(line).getRating();
-                        ratings++;
-                    line = br.readLine();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    return (int)cumulativeRating/ratings;
-    }
-
     public int getUsersRatings(User user, Film film){
         File file = new File(RATINGS_DATA_SOURCE);
         try {

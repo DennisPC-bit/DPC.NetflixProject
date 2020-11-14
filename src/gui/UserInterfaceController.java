@@ -108,13 +108,14 @@ public class UserInterfaceController {
     public void changeLabels(Film film){
         filmLabel.setText(film.getTitle().getValue());
         dateLabel.setText(film.getDate().getValue().toString());
-        ratingLabel.setText(String.valueOf(ratingsManager.getUsersRatingsForFilm(user,film)));
+        ratingLabel.setText(String.valueOf(ratingsManager.getUsersRatingsForFilm(user,film))); // fix
     }
 
     public void addNewFilm(Film film){
         films.add(film);
         films.sort(Comparator.comparingInt(Film::getIntId));
-        filmManager.saveFilmChanges(autoSave);}
+        filmManager.saveFilmChanges(autoSave);
+    }
 
     public void editFilm(Film film){
         for(Film filmCheck: films)

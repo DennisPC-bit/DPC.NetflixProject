@@ -5,11 +5,10 @@ public class FilmRating {
     private int filmId;
     private int userId;
 
-    public FilmRating(int filmId, int userId,int rating)
-    {
-        this.rating=rating;
+    public FilmRating(int filmId, int userId,int rating) {
         this.filmId=filmId;
         this.userId=userId;
+        this.rating=rating;
     }
 
     public int getUserId() {
