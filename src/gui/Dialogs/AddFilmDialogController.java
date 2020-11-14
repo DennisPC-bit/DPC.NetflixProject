@@ -3,6 +3,7 @@ package gui.Dialogs;
 import be.Film;
 import gui.UserInterfaceController;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 public class AddFilmDialogController {
@@ -17,11 +18,29 @@ public class AddFilmDialogController {
     public void confirmButton(ActionEvent actionEvent) {
         if(titlefield!=null&&yearField!=null){
             if(!titlefield.getText().isEmpty()&&!yearField.getText().isEmpty()) {
-                userInterfaceController.addNewFilm(new Film(titlefield.getText(), Integer.parseInt(yearField.getText()), userInterfaceController.getUniqueFilmId()));
-                userInterfaceController.closeAddFilmDialogStage();
+                try {
+                    userInterfaceController.addNewFilm(new Film(titlefield.getText(), Integer.parseInt(yearField.getText()), userInterfaceController.getUniqueFilmId()));
+                    userInterfaceController.closeAddFilmDialogStage();
+                    }
+                catch (NumberFormatException e)
+                {
+                    String problem="INVALID YEAR";
+                    Alert alert= new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle(problem);
+                    alert.setHeaderText(problem);
+                    alert.setContentText(problem);
+                    alert.showAndWait();
+                }
+            }
+            else{
+                String problem="TITLEFIELD OR YEARFIELD EMPTY";
+                Alert alert= new Alert(Alert.AlertType.ERROR);
+                alert.setTitle(problem);
+                alert.setHeaderText(problem);
+                alert.setContentText(problem);
+                alert.showAndWait();
             }
         }
-        userInterfaceController.closeAddFilmDialogStage();
     }
 
     public void cancelButton(ActionEvent actionEvent) {

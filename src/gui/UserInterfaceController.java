@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -112,13 +113,13 @@ public class UserInterfaceController {
 
     public void editFilm(Film film){
         for(Film filmCheck: films)
-        if(filmCheck.getIntId()==film.getIntId()){
-        films.remove(filmCheck);
-        films.add(film);
-        films.sort(Comparator.comparingInt(Film::getIntId));
-        filmManager.saveFilmChanges(autoSave);
-        break;
-        }
+            if(filmCheck.getIntId()==film.getIntId()){
+                films.remove(filmCheck);
+                films.add(film);
+                films.sort(Comparator.comparingInt(Film::getIntId));
+                filmManager.saveFilmChanges(autoSave);
+                break;
+            }
     }
 
     public void removeFilm(ActionEvent actionEvent) {
@@ -128,8 +129,8 @@ public class UserInterfaceController {
                 films.sort(Comparator.comparingInt(Film::getIntId));
                 filmManager.saveFilmChanges(autoSave);
                 break;
+            }
         }
-    }
     }
 
     public void openAddFilmDialog(ActionEvent actionEvent) {
@@ -141,6 +142,7 @@ public class UserInterfaceController {
             addFilmDialogStage.setScene(scene);
             AddFilmDialogController controller = loader.getController();
             controller.setUserInterfaceController(this);
+            addFilmDialogStage.initModality(Modality.APPLICATION_MODAL);
             addFilmDialogStage.show();
 
         } catch (IOException e) {
@@ -162,6 +164,7 @@ public class UserInterfaceController {
                 editFilmDialogStage.setScene(scene);
                 EditFilmDialogController controller = loader.getController();
                 controller.setUserInterfaceController(this);
+                editFilmDialogStage.initModality(Modality.APPLICATION_MODAL);
                 editFilmDialogStage.show();
             } catch (IOException e) {
                 e.printStackTrace();
