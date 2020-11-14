@@ -2,18 +2,16 @@ package dal;
 
 import be.Film;
 import be.FilmRating;
-import bll.RatingsParser;
-import bll.UserParser;
+import bll.RatingsManager;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public class RatingDAO {
     private static final String RATINGS_DATA_SOURCE="data/ratings.txt";
     private ArrayList<FilmRating> ratingsArrayList= new ArrayList<>();
-    private RatingsParser ratingsParser;
-    public RatingDAO(RatingsParser ratingsParser){
+    private RatingsManager ratingsParser;
+    public RatingDAO(RatingsManager ratingsParser){
         this.ratingsParser=ratingsParser;
     }
 

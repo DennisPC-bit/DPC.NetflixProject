@@ -8,10 +8,10 @@ import dal.RatingDAO;
 import dal.UserDAO;
 import gui.UserInterfaceController;
 
-public class RatingsParser {
+public class RatingsManager {
     private UserInterfaceController userInterfaceController;
 
-    public RatingsParser(UserInterfaceController userInterfaceController){
+    public RatingsManager(UserInterfaceController userInterfaceController){
         this.userInterfaceController=userInterfaceController;
     }
     RatingDAO ratingDAO = new RatingDAO(this);
