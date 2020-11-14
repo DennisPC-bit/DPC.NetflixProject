@@ -23,8 +23,9 @@ public class RatingDAO {
             try {
                 String line = br.readLine();
                 while (line != null) {
-                    if (!line.isEmpty())
+                    if (!line.isEmpty()){
                         ratingsArrayList.add(ratingsManager.parseRating(line));
+                    }
                     line = br.readLine();
                 }
             } catch (IOException e) {

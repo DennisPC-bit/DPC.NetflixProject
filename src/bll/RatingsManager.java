@@ -8,6 +8,8 @@ import dal.RatingDAO;
 import dal.UserDAO;
 import gui.UserInterfaceController;
 
+import java.util.ArrayList;
+
 public class RatingsManager {
     private UserInterfaceController userInterfaceController;
 
@@ -35,6 +37,7 @@ public class RatingsManager {
         return 0;
     }
 
+    public ArrayList<FilmRating> getAllRatings(){return ratingDAO.getAllRatings();}
     public int getUsersRatingsForFilm(User user,Film film){
         return ratingDAO.getUsersRatings(user, film);
     }

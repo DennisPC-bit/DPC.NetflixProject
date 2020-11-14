@@ -1,6 +1,7 @@
 package gui;
 
 import be.Film;
+import be.FilmRating;
 import be.User;
 import bll.FilmManager;
 import bll.RatingsManager;
@@ -77,7 +78,7 @@ public class UserInterfaceController {
     public ObservableList<Film> getAllFilms() {
         return this.films;
     }
-
+    public ArrayList<FilmRating> getAllRatings(){return ratingsManager.getAllRatings();}
     public ArrayList<User> getAllUsers(){
         return userManager.getAllUsers();
     }
@@ -108,8 +109,17 @@ public class UserInterfaceController {
     public void changeLabels(Film film){
         filmLabel.setText(film.getTitle().getValue());
         dateLabel.setText(film.getDate().getValue().toString());
-        ratingLabel.setText(String.valueOf(ratingsManager.getUsersRatingsForFilm(user,film))); // fix
+        ratingLabel.setText(String.valueOf(getUsersFilmRating(film))); // fix
     }
+
+    public int getUsersFilmRating(Film film){
+        for(FilmRating filmRating: user.getFilmsRated()){
+            if(filmRating.getFilmId()==film.getIntId())
+                return filmRating.getRating();}
+
+        return 0;
+    }
+
 
     public void addNewFilm(Film film){
         films.add(film);
