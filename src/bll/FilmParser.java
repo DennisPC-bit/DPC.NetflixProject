@@ -55,4 +55,12 @@ public class FilmParser {
     public void addNewFilm(Film film){
         filmDAO.addNewFilm(film);
     }
+
+    public void toggleAutoSave(){
+        filmDAO.toggleAutoSave();
+    }
+
+    public void saveFilmChanges(){
+        filmDAO.saveFilmChanges(true);
+    }
 }

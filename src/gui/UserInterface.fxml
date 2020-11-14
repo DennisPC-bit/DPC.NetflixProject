@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -17,22 +17,7 @@
    <children>
       <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <BorderPane BorderPane.alignment="CENTER">
-               <left>
-                  <AnchorPane prefHeight="16.0" prefWidth="650.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-                          <buttons>
-                              <Button mnemonicParsing="false" onAction="#removeFilm" text="Delete" />
-                            <Button mnemonicParsing="false" onAction="#openAddFilmDialog" text="Add Film" />
-                              <Button mnemonicParsing="false" onAction="#openEditFilmDialog" text="Edit Film" />
-                              <Button mnemonicParsing="false" text="Load" />
-                          </buttons>
-                        </ButtonBar>
-                     </children>
-                  </AnchorPane>
-               </left>
-            </BorderPane>
+            <BorderPane BorderPane.alignment="CENTER" />
          </top>
          <right>
             <AnchorPane fx:id="sidePanel" BorderPane.alignment="CENTER">
@@ -174,6 +159,67 @@
                </children>
             </AnchorPane>
          </center>
+         <bottom>
+            <AnchorPane prefHeight="32.0" prefWidth="650.0" BorderPane.alignment="CENTER">
+               <children>
+                  <GridPane layoutY="-2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="124.0" minWidth="10.0" prefWidth="98.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="594.0" minWidth="10.0" prefWidth="552.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <GridPane prefHeight="30.0" prefWidth="648.0" GridPane.columnIndex="1">
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <AnchorPane>
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#useSaveButton" text="Save" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane GridPane.columnIndex="1">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#openEditFilmDialog" text="Edit Film" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane GridPane.columnIndex="2">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#removeFilm" text="Delete" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane GridPane.columnIndex="3">
+                                 <children>
+                                  <Button mnemonicParsing="false" onAction="#openAddFilmDialog" text="Add Film" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane GridPane.columnIndex="4">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Load" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </GridPane>
+                        <AnchorPane>
+                           <children>
+                              <CheckBox mnemonicParsing="false" onAction="#toggleAutoSave" prefHeight="17.0" prefWidth="75.0" selected="true" text="Autosave" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+         </bottom>
       </BorderPane>
    </children>
 </AnchorPane>

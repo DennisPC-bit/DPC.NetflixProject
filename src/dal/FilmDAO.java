@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class FilmDAO {
+    private boolean autoSave = true;
 
     private static final String FILM_SOURCE = "data/movie_titles.txt";
     ArrayList<Film> films = new ArrayList<>();
@@ -75,20 +76,21 @@ public class FilmDAO {
             if(filmsCheck.getId()==film.getId())
                 filmsCheck=film;
         }
-        saveFilmChanges();
+        saveFilmChanges(autoSave);
     }
 
     public void removeFilm(Film film){
         films.remove(film);
-        saveFilmChanges();
+        saveFilmChanges(autoSave);
     }
 
     public void addNewFilm(Film film){
         films.add(film);
-        saveFilmChanges();
+        saveFilmChanges(autoSave);
     }
 
-    public void saveFilmChanges(){
+    public void saveFilmChanges(boolean save){
+        if(save){
         films.sort(Comparator.comparingInt(Film::getIntId));
         File file = new File(FILM_SOURCE);
         try {
@@ -100,5 +102,10 @@ public class FilmDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    }
+
+    public void toggleAutoSave(){
+        autoSave=!autoSave;
     }
 }

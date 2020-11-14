@@ -154,5 +154,13 @@ public class UserInterfaceController {
     public void closeEditFilmDialogStage(){
         editFilmDialogStage.close();
     }
+
+    public void useSaveButton(ActionEvent actionEvent) {
+        filmParser.saveFilmChanges();
+    }
+
+    public void toggleAutoSave(ActionEvent actionEvent) {
+        filmParser.toggleAutoSave();
+    }
 }
 
