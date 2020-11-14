@@ -24,11 +24,14 @@ import java.util.Comparator;
 
 public class UserInterfaceController {
 
+    public Label ratingLabel;
+
     public UserInterfaceController(){
     this.filmManager = new FilmManager(this);
     this.userManager = new UserManager(this);
     this.ratingsManager = new RatingsManager(this);
     this.autoSave=true;
+    this.user=userManager.getAllUsers().get(492);
     }
     private FilmManager filmManager;
     private UserManager userManager;
@@ -55,6 +58,7 @@ public class UserInterfaceController {
     private Stage editFilmDialogStage;
     private ObservableList<Film> films;
     private boolean autoSave;
+    private User user;
 
     @FXML
     private void initialize(){
@@ -104,6 +108,7 @@ public class UserInterfaceController {
     public void changeLabels(Film film){
         filmLabel.setText(film.getTitle().getValue());
         dateLabel.setText(film.getDate().getValue().toString());
+        ratingLabel.setText(String.valueOf(ratingsManager.getUsersRatingsForFilm(user,film)));
     }
 
     public void addNewFilm(Film film){

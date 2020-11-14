@@ -28,7 +28,7 @@ public class User {
         this.name = name;
     }
 
-    public void addFilmRating(int rating, Film film){
-        filmsRated.add(new FilmRating(rating,film, film.getId().getValue()));
+    public void addFilmRating(FilmRating filmRating){
+        filmsRated.add(filmRating);
     }
 }
