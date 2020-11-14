@@ -1,7 +1,6 @@
 package bll;
 
 import be.Film;
-import com.sun.javafx.tk.Toolkit;
 import dal.FilmDAO;
 import gui.UserInterfaceController;
 import javafx.collections.ObservableList;

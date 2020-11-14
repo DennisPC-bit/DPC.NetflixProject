@@ -8,8 +8,8 @@ public class UserDAO {
     private static final String USER_DATA_SOURCE="data/users.txt";
     private ArrayList<User> userArrayList= new ArrayList<User>();
     private UserManager userParser;
-    public UserDAO(UserManager userParser){
-        this.userParser = userParser;
+    public UserDAO(UserManager userManager){
+        this.userParser = userManager;
     }
 
     public ArrayList<User> getAllUsers() {

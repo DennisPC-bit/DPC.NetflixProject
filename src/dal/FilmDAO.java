@@ -13,10 +13,10 @@ public class FilmDAO {
 
     private static final String FILM_SOURCE = "data/movie_titles.txt";
     ArrayList<Film> films = new ArrayList<>();
-    private FilmManager filmParser;
+    private FilmManager filmManager;
 
-    public FilmDAO(FilmManager filmParser){
-        this.filmParser=filmParser;
+    public FilmDAO(FilmManager filmManager){
+        this.filmManager = filmManager;
     }
 
     public int getUniqueFilmId(){
@@ -37,7 +37,7 @@ public class FilmDAO {
                 String line = br.readLine();
                 while (line != null) {
                     if (!line.isEmpty() && line.split(",").length>=3)
-                        films.add(filmParser.parseFilm(line));
+                        films.add(filmManager.parseFilm(line));
                     line = br.readLine();
                 }
             } catch (IOException e) {
@@ -58,7 +58,7 @@ public class FilmDAO {
                 String line = br.readLine();
                 while (line != null) {
                     if (!line.isEmpty() && line.toLowerCase().contains(searchString.toLowerCase()))
-                        filmsSearch.add(filmParser.parseFilm(line));
+                        filmsSearch.add(filmManager.parseFilm(line));
                     line = br.readLine();
                 }
             } catch (IOException e) {
@@ -76,8 +76,8 @@ public class FilmDAO {
         File file = new File(FILM_SOURCE);
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-            for(Film filmsInCurrentArray: filmParser.getFilms()){
-                bw.write(filmParser.inverseParseFilm(filmsInCurrentArray));
+            for(Film filmsInCurrentArray: filmManager.getFilms()){
+                bw.write(filmManager.inverseParseFilm(filmsInCurrentArray));
                 bw.newLine();
             }
         } catch (IOException e) {
