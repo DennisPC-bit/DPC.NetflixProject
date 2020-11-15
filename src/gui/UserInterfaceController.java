@@ -1,12 +1,14 @@
 package gui;
 
 import be.Film;
+import be.FilmRating;
 import be.User;
 import bll.FilmManager;
 import bll.RatingsManager;
 import bll.UserManager;
 import gui.Dialogs.AddFilmDialogController;
 import gui.Dialogs.EditFilmDialogController;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,11 +26,14 @@ import java.util.Comparator;
 
 public class UserInterfaceController {
 
+    public Label ratingLabel;
+
     public UserInterfaceController(){
     this.filmManager = new FilmManager(this);
     this.userManager = new UserManager(this);
     this.ratingsManager = new RatingsManager(this);
     this.autoSave=true;
+    this.user=userManager.getAllUsers().get(1);
     }
     private FilmManager filmManager;
     private UserManager userManager;
@@ -55,6 +60,7 @@ public class UserInterfaceController {
     private Stage editFilmDialogStage;
     private ObservableList<Film> films;
     private boolean autoSave;
+    private User user;
 
     @FXML
     private void initialize(){
@@ -70,10 +76,10 @@ public class UserInterfaceController {
         this.movieIdColumn.setCellValueFactory(cellData -> cellData.getValue().getId());
     }
 
-    public ObservableList<Film> getAllFilms() {
-        return this.films;
+    public ArrayList<Film> getAllFilms() {
+        return filmManager.getAllFilms();
     }
-
+    public ArrayList<FilmRating> getAllRatings(){return ratingsManager.getAllRatings();}
     public ArrayList<User> getAllUsers(){
         return userManager.getAllUsers();
     }
@@ -81,7 +87,7 @@ public class UserInterfaceController {
     public Film getSelectedFilm(){return selectedFilm;}
     public Stage getAddFilmDialogStage() {return addFilmDialogStage;}
     public void loadFilms(){
-        this.films = filmManager.getAllFilms();
+        this.films = FXCollections.observableArrayList(filmManager.getAllFilms());
     }
 
     public void searchWithKey(KeyEvent actionEvent) {search(); }
@@ -103,12 +109,19 @@ public class UserInterfaceController {
     public void changeLabels(Film film){
         filmLabel.setText(film.getTitle().getValue());
         dateLabel.setText(film.getDate().getValue().toString());
+        ratingLabel.setText(String.valueOf(getUsersFilmRating(user,film))); // fix
     }
+
+    public int getUsersFilmRating(User user, Film film){
+        return ratingsManager.getUsersRatingsForFilm(user,film);
+    }
+
 
     public void addNewFilm(Film film){
         films.add(film);
         films.sort(Comparator.comparingInt(Film::getIntId));
-        filmManager.saveFilmChanges(autoSave);}
+        filmManager.saveFilmChanges(autoSave);
+    }
 
     public void editFilm(Film film){
         for(Film filmCheck: films)

@@ -19,7 +19,7 @@ public class AddFilmDialogController {
         if(titlefield!=null&&yearField!=null){
             if(!titlefield.getText().isEmpty()&&!yearField.getText().isEmpty()) {
                 try {
-                    userInterfaceController.addNewFilm(new Film(titlefield.getText(), Integer.parseInt(yearField.getText()), userInterfaceController.getUniqueFilmId()));
+                    userInterfaceController.addNewFilm(new Film(userInterfaceController.getUniqueFilmId(), Integer.parseInt(yearField.getText()), titlefield.getText()));
                     userInterfaceController.closeAddFilmDialogStage();
                     }
                 catch (NumberFormatException e)

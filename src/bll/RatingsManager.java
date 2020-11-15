@@ -8,6 +8,8 @@ import dal.RatingDAO;
 import dal.UserDAO;
 import gui.UserInterfaceController;
 
+import java.util.ArrayList;
+
 public class RatingsManager {
     private UserInterfaceController userInterfaceController;
 
@@ -17,18 +19,17 @@ public class RatingsManager {
     RatingDAO ratingDAO = new RatingDAO(this);
 
     public FilmRating parseRating(String input){
+        if(input!=null){
         String[] rating=input.split(",");
-            for(Film film : userInterfaceController.getAllFilms())
-            if (film.getId().get()==Integer.parseInt(rating[1])){
-                return new FilmRating(Integer.parseInt(rating[2]), film, Integer.parseInt(rating[1]));
-            }
-            return null;
+        return new FilmRating(Integer.parseInt(rating[0]), Integer.parseInt(rating[1]), Integer.parseInt(rating[2]));
+        }
+        return null;
         }
 
     public double ratingAVG(Film film) {
         if (film != null) {
             for (FilmRating filmrating : ratingDAO.getAllRatings()) {
-                if (film.getId() == filmrating.getFilm().getId()) {
+                if (film.getId().getValue() == filmrating.getFilmId()) {
                     film.addRating(filmrating.getRating());
                 }
             }
@@ -36,8 +37,10 @@ public class RatingsManager {
         return 0;
     }
 
-    public int getRatingsForFilm(Film film){
-        return ratingDAO.getRatingsForFilm(film);
+    public ArrayList<FilmRating> getAllRatings(){return ratingDAO.getAllRatings();}
+
+    public int getUsersRatingsForFilm(User user,Film film){
+        return ratingDAO.getUsersRatings(user, film);
     }
 }
 

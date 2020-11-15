@@ -11,7 +11,7 @@ public class Film {
     private int ratingCumulated;
     private int ratings;
 
-    public Film(String title, int date, int id){
+    public Film(int id, int date,String title){
         this.ratingCumulated=0;
         this.ratings=0;
         this.title = new SimpleStringProperty(title);
