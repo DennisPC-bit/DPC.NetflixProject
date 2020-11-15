@@ -23,6 +23,7 @@ public class UserDAO {
                         userArrayList.add(userParser.parseUser(line));
                     line = br.readLine();
                 }
+                br.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

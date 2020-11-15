@@ -4,7 +4,6 @@ import be.Film;
 import bll.FilmManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -40,6 +39,7 @@ public class FilmDAO {
                         films.add(filmManager.parseFilm(line));
                     line = br.readLine();
                 }
+                br.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -61,6 +61,7 @@ public class FilmDAO {
                         filmsSearch.add(filmManager.parseFilm(line));
                     line = br.readLine();
                 }
+                br.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -80,6 +81,7 @@ public class FilmDAO {
                 bw.write(filmManager.inverseParseFilm(filmsInCurrentArray));
                 bw.newLine();
             }
+            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

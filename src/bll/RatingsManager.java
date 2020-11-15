@@ -19,11 +19,8 @@ public class RatingsManager {
     RatingDAO ratingDAO = new RatingDAO(this);
 
     public FilmRating parseRating(String input){
-        if(input!=null){
         String[] rating=input.split(",");
         return new FilmRating(Integer.parseInt(rating[0]), Integer.parseInt(rating[1]), Integer.parseInt(rating[2]));
-        }
-        return null;
     }
 
     public String inverseParseRating(FilmRating filmRating){

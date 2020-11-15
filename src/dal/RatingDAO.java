@@ -4,7 +4,6 @@ import be.Film;
 import be.FilmRating;
 import be.User;
 import bll.RatingsManager;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -29,6 +28,7 @@ public class RatingDAO {
                     }
                     line = br.readLine();
                 }
+                br.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -38,20 +38,8 @@ public class RatingDAO {
         return ratingsArrayList;
     }
 
-    public void saveRatings(){
-        File file = new File(RATINGS_DATA_SOURCE);
-        try{
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-                for(FilmRating filmRating: ratingsManager.getAllRatings()){
-                    bw.write(ratingsManager.inverseParseRating(filmRating));
-                    bw.newLine();
-                }
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
     public void addFilmRating(FilmRating filmRating){
+        ratingsArrayList.sort(Comparator.comparingInt(FilmRating::getUserId));
         ratingsArrayList.removeIf(filmRating1 -> filmRating1.getUserId()==filmRating.getUserId()&&filmRating1.getFilmId()==filmRating.getFilmId());
         ratingsArrayList.add(filmRating);
         saveRatings();
@@ -64,5 +52,20 @@ public class RatingDAO {
                 return filmRating.getRating();}
         }
         return 0;
+    }
+
+    public void saveRatings(){
+        ratingsArrayList.sort(Comparator.comparingInt(FilmRating::getFilmId));
+        File file = new File(RATINGS_DATA_SOURCE);
+        try{
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            for(FilmRating filmRating:ratingsManager.getAllRatings()){
+                bw.write(ratingsManager.inverseParseRating(filmRating));
+                bw.newLine();
+            }
+            bw.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }

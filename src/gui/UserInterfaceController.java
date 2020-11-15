@@ -65,6 +65,8 @@ public class UserInterfaceController {
     @FXML
     private void initialize(){
         this.loadFilms();
+        this.getAllRatings();
+        this.getAllUsers();
         this.filmTable.setItems(this.films);
 
         this.filmTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -205,7 +207,7 @@ public class UserInterfaceController {
     }
 
     public void rateThree(ActionEvent actionEvent) {
-        ratingsManager.addFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),0));
+        ratingsManager.addFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),1));
     }
 
     public void rateFour(ActionEvent actionEvent) {
