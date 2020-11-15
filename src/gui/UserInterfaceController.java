@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -29,11 +30,9 @@ public class UserInterfaceController {
     this.ratingsManager = new RatingsManager(this);
     this.autoSave=true;
     }
-
     private FilmManager filmManager;
     private UserManager userManager;
     private RatingsManager ratingsManager;
-
     @FXML
     private Label filmLabel;
     @FXML
@@ -48,14 +47,17 @@ public class UserInterfaceController {
     private TableColumn<Film,Integer> movieIdColumn;
     @FXML
     private TableView filmTable;
+    @FXML
     private Film selectedFilm;
+    @FXML
     private Stage addFilmDialogStage;
+    @FXML
     private Stage editFilmDialogStage;
     private ObservableList<Film> films;
     private boolean autoSave;
 
     @FXML
-    public void initialize(){
+    private void initialize(){
         this.loadFilms();
         this.filmTable.setItems(this.films);
 
@@ -71,6 +73,7 @@ public class UserInterfaceController {
     public ObservableList<Film> getAllFilms() {
         return this.films;
     }
+
     public ArrayList<User> getAllUsers(){
         return userManager.getAllUsers();
     }
@@ -109,12 +112,13 @@ public class UserInterfaceController {
 
     public void editFilm(Film film){
         for(Film filmCheck: films)
-        if(filmCheck.getIntId()==film.getIntId()){
-        films.remove(filmCheck);
-        films.add(film);
-        films.sort(Comparator.comparingInt(Film::getIntId));
-        filmManager.saveFilmChanges(autoSave);
-        }
+            if(filmCheck.getIntId()==film.getIntId()){
+                films.remove(filmCheck);
+                films.add(film);
+                films.sort(Comparator.comparingInt(Film::getIntId));
+                filmManager.saveFilmChanges(autoSave);
+                break;
+            }
     }
 
     public void removeFilm(ActionEvent actionEvent) {
@@ -123,8 +127,9 @@ public class UserInterfaceController {
                 films.remove(filmCheck);
                 films.sort(Comparator.comparingInt(Film::getIntId));
                 filmManager.saveFilmChanges(autoSave);
+                break;
+            }
         }
-    }
     }
 
     public void openAddFilmDialog(ActionEvent actionEvent) {
@@ -136,6 +141,7 @@ public class UserInterfaceController {
             addFilmDialogStage.setScene(scene);
             AddFilmDialogController controller = loader.getController();
             controller.setUserInterfaceController(this);
+            addFilmDialogStage.initModality(Modality.APPLICATION_MODAL);
             addFilmDialogStage.show();
 
         } catch (IOException e) {
@@ -157,6 +163,7 @@ public class UserInterfaceController {
                 editFilmDialogStage.setScene(scene);
                 EditFilmDialogController controller = loader.getController();
                 controller.setUserInterfaceController(this);
+                editFilmDialogStage.initModality(Modality.APPLICATION_MODAL);
                 editFilmDialogStage.show();
             } catch (IOException e) {
                 e.printStackTrace();
