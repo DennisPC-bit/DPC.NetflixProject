@@ -12,24 +12,17 @@ public class UserDAO {
         this.userParser = userManager;
     }
 
-    public ArrayList<User> getAllUsers() {
+    public ArrayList<User> loadUsers() {
         File file = new File(USER_DATA_SOURCE);
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            try {
-                String line = br.readLine();
-                while (line != null) {
-                    if (!line.isEmpty())
-                        userArrayList.add(userParser.parseUser(line));
-                    line = br.readLine();
-                }
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+        try (BufferedReader br = new BufferedReader(new FileReader(file))){
+            String line = br.readLine();
+            while (line != null) {
+                if (!line.isEmpty())
+                    userArrayList.add(userParser.parseUser(line));
+                line = br.readLine();
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
+        catch (IOException e) {e.printStackTrace();}
         return userArrayList;
     }
 }

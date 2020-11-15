@@ -30,21 +30,15 @@ public class FilmDAO {
 
     public ArrayList<Film> loadFilms() {
         File file = new File(FILM_SOURCE);
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            try {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))){
                 String line = br.readLine();
                 while (line != null) {
                     if (!line.isEmpty() && line.split(",").length>=3)
                         films.add(filmManager.parseFilm(line));
                     line = br.readLine();
                 }
-                br.close();
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
         return films;
     }
@@ -52,22 +46,16 @@ public class FilmDAO {
     public ObservableList<Film> searchForFilm(String searchString) {
         ArrayList<Film> filmsSearch = new ArrayList<>();
         File file = new File(FILM_SOURCE);
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            try {
+            try (BufferedReader br = new BufferedReader(new FileReader(file))){
                 String line = br.readLine();
                 while (line != null) {
                     if (!line.isEmpty() && line.toLowerCase().contains(searchString.toLowerCase()))
                         filmsSearch.add(filmManager.parseFilm(line));
                     line = br.readLine();
                 }
-                br.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
         return FXCollections.observableArrayList(filmsSearch);
     }
 
@@ -75,13 +63,11 @@ public class FilmDAO {
         if(save){
         films.sort(Comparator.comparingInt(Film::getIntId));
         File file = new File(FILM_SOURCE);
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
             for(Film filmsInCurrentArray: filmManager.getAllFilms()){
                 bw.write(filmManager.inverseParseFilm(filmsInCurrentArray));
                 bw.newLine();
             }
-            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

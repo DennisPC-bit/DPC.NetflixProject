@@ -18,21 +18,15 @@ public class RatingDAO {
 
     public ArrayList<FilmRating> getAllRatings() {
         File file = new File(RATINGS_DATA_SOURCE);
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            try {
-                String line = br.readLine();
-                while (line != null) {
-                    if (!line.isEmpty()){
-                        ratingsArrayList.add(ratingsManager.parseRating(line));
-                    }
-                    line = br.readLine();
+        try (BufferedReader br = new BufferedReader(new FileReader(file))){
+            String line = br.readLine();
+            while (line != null) {
+                if (!line.isEmpty()){
+                    ratingsArrayList.add(ratingsManager.parseRating(line));
                 }
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+                line = br.readLine();
             }
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return ratingsArrayList;
@@ -57,13 +51,11 @@ public class RatingDAO {
     public void saveRatings(){
         ratingsArrayList.sort(Comparator.comparingInt(FilmRating::getFilmId));
         File file = new File(RATINGS_DATA_SOURCE);
-        try{
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
             for(FilmRating filmRating:ratingsArrayList){
                 bw.write(ratingsManager.inverseParseRating(filmRating));
                 bw.newLine();
             }
-            bw.close();
         }catch (IOException e){
             e.printStackTrace();
         }

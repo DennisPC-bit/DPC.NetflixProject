@@ -11,12 +11,10 @@ import gui.Dialogs.EditFilmDialogController;
 import gui.Dialogs.LogInScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -84,7 +82,7 @@ public class UserInterfaceController {
     }
 
     public ArrayList<FilmRating> loadRatings(){return ratingsManager.getAllRatings();}
-    public void loadUsers(){this.users=FXCollections.observableArrayList(userManager.getAllUsers()); }
+    public void loadUsers(){this.users=FXCollections.observableArrayList(userManager.loadUsers()); }
     public void loadFilms(){
         this.films = FXCollections.observableArrayList(filmManager.loadFilms());
     }

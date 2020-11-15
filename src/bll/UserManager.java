@@ -18,7 +18,7 @@ public class UserManager {
         return new User(user[1], Integer.parseInt(user[0]));
     }
 
-    public ArrayList<User> getAllUsers(){
-        return userDAO.getAllUsers();
+    public ArrayList<User> loadUsers(){
+        return userDAO.loadUsers();
     }
 }
