@@ -12,11 +12,11 @@ import java.util.ArrayList;
 
 public class RatingsManager {
     private UserInterfaceController userInterfaceController;
+    RatingDAO ratingDAO = new RatingDAO(this);
 
     public RatingsManager(UserInterfaceController userInterfaceController){
         this.userInterfaceController=userInterfaceController;
     }
-    RatingDAO ratingDAO = new RatingDAO(this);
 
     public FilmRating parseRating(String input){
         String[] rating=input.split(",");
@@ -25,18 +25,6 @@ public class RatingsManager {
 
     public String inverseParseRating(FilmRating filmRating){
         return filmRating.getFilmId() + "," + filmRating.getUserId() + "," + filmRating.getRating();
-    }
-
-
-    public double ratingAVG(Film film) {
-        if (film != null) {
-            for (FilmRating filmrating : ratingDAO.getAllRatings()) {
-                if (film.getId().getValue() == filmrating.getFilmId()) {
-                    film.addRating(filmrating.getRating());
-                }
-            }
-        }
-        return 0;
     }
 
     public ArrayList<FilmRating> getAllRatings(){return ratingDAO.getAllRatings();}
@@ -49,4 +37,3 @@ public class RatingsManager {
         ratingDAO.addFilmRating(filmRating);
     }
 }
-

@@ -10,6 +10,7 @@ public class AddFilmDialogController {
     private UserInterfaceController userInterfaceController;
     public TextField titlefield;
     public TextField yearField;
+    private final InputAlert inputAlert = new InputAlert();
 
     public void setUserInterfaceController(UserInterfaceController userInterfaceController) {
         this.userInterfaceController = userInterfaceController;
@@ -24,21 +25,11 @@ public class AddFilmDialogController {
                     }
                 catch (NumberFormatException e)
                 {
-                    String problem="INVALID YEAR";
-                    Alert alert= new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle(problem);
-                    alert.setHeaderText(problem);
-                    alert.setContentText(problem);
-                    alert.showAndWait();
+                    inputAlert.showAlert("INVALID YEAR");
                 }
             }
             else{
-                String problem="TITLEFIELD OR YEARFIELD EMPTY";
-                Alert alert= new Alert(Alert.AlertType.ERROR);
-                alert.setTitle(problem);
-                alert.setHeaderText(problem);
-                alert.setContentText(problem);
-                alert.showAndWait();
+                inputAlert.showAlert("TITLEFIELD OR YEARFIELD EMPTY");
             }
         }
     }

@@ -16,12 +16,11 @@ public class FilmManager {
     public FilmManager(UserInterfaceController userInterfaceController){
         this.userInterfaceController=userInterfaceController;
     }
-    public ArrayList<Film> getAllFilms(){
-        return filmDAO.getAllFilms();
+    public ArrayList<Film> loadFilms(){
+        return filmDAO.loadFilms();
     }
-    public ArrayList<Film> getFilms(){
-        return userInterfaceController.getAllFilms();
-    }
+    public ObservableList<Film> getAllFilms(){return userInterfaceController.getAllFilms();}
+
     public int getUniqueFilmId(){
         return filmDAO.getUniqueFilmId();
     }

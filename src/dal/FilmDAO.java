@@ -28,7 +28,7 @@ public class FilmDAO {
         return index;
     }
 
-    public ArrayList<Film> getAllFilms() {
+    public ArrayList<Film> loadFilms() {
         File file = new File(FILM_SOURCE);
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -77,7 +77,7 @@ public class FilmDAO {
         File file = new File(FILM_SOURCE);
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-            for(Film filmsInCurrentArray: filmManager.getFilms()){
+            for(Film filmsInCurrentArray: filmManager.getAllFilms()){
                 bw.write(filmManager.inverseParseFilm(filmsInCurrentArray));
                 bw.newLine();
             }

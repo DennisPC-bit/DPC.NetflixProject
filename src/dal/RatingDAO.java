@@ -59,7 +59,7 @@ public class RatingDAO {
         File file = new File(RATINGS_DATA_SOURCE);
         try{
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-            for(FilmRating filmRating:ratingsManager.getAllRatings()){
+            for(FilmRating filmRating:ratingsArrayList){
                 bw.write(ratingsManager.inverseParseRating(filmRating));
                 bw.newLine();
             }

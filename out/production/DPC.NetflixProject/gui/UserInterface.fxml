@@ -134,7 +134,7 @@
                                     <TextField fx:id="searchField" onKeyReleased="#searchWithKey" promptText="Search for a movie" />
                                     <AnchorPane GridPane.columnIndex="1">
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#searchBtn" prefHeight="25.0" prefWidth="114.0" text="Clear" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button mnemonicParsing="false" onAction="#clearBtn" prefHeight="25.0" prefWidth="114.0" text="Clear" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </children>
@@ -178,6 +178,7 @@
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -206,6 +207,16 @@
                               <AnchorPane GridPane.columnIndex="4">
                                  <children>
                                     <Button mnemonicParsing="false" text="Load" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane>
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Load" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane GridPane.columnIndex="5">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#changeUser" text="Set User" textAlignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
                                  </children>
                               </AnchorPane>
                            </children>

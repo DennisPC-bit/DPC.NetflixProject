@@ -18,9 +18,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("UserInterface.fxml"));
+        UserInterfaceController controller = new UserInterfaceController();
         primaryStage.setTitle("Netflix");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+        if(controller.getUser()==null)
+        controller.changeUser();
     }
 
 
