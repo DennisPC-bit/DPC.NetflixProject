@@ -1,9 +1,9 @@
 package gui.Dialogs;
 
 import be.Film;
+import be.InputAlert;
 import gui.UserInterfaceController;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 public class EditFilmDialogController {

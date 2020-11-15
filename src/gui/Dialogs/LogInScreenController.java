@@ -1,5 +1,6 @@
 package gui.Dialogs;
 
+import be.InputAlert;
 import be.User;
 import gui.UserInterfaceController;
 import javafx.event.ActionEvent;

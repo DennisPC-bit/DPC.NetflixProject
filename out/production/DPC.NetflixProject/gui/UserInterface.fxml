@@ -216,7 +216,7 @@
                               </AnchorPane>
                               <AnchorPane GridPane.columnIndex="5">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#changeUser" text="Set User" textAlignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                    <Button mnemonicParsing="false" onAction="#changeUser" text="Log in" textAlignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
                                  </children>
                               </AnchorPane>
                            </children>

@@ -3,6 +3,7 @@ import be.User;
 import bll.UserManager;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class UserDAO {
     private static final String USER_DATA_SOURCE="data/users.txt";
@@ -24,5 +25,15 @@ public class UserDAO {
         }
         catch (IOException e) {e.printStackTrace();}
         return userArrayList;
+    }
+
+    public int getUniqueUserId(){
+        int index=1;
+        userArrayList.sort(Comparator.comparingInt(User::getId));
+        for(User user:userArrayList) {
+            if (user.getId() == index)
+                index++;
+        }
+        return index;
     }
 }

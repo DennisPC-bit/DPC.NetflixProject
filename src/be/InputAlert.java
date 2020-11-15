@@ -1,4 +1,4 @@
-package gui.Dialogs;
+package be;
 
 public class InputAlert {
     public void showAlert(String message){

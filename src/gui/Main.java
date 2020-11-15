@@ -1,13 +1,5 @@
 package gui;
 
-import be.Film;
-import be.FilmRating;
-import be.User;
-import bll.FilmManager;
-import bll.SearchTool;
-import bll.UserManager;
-import dal.FilmDAO;
-import dal.UserDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

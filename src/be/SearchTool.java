@@ -1,4 +1,4 @@
-package bll;
+package be;
 public class SearchTool {
     public int binarySearch(int startPoint,int endPoint, int target){
         int midPoint=startPoint+(endPoint-startPoint)/2;
