@@ -195,5 +195,25 @@ public class UserInterfaceController {
     public void toggleAutoSave(ActionEvent actionEvent) {
             autoSave=!autoSave;
     }
+
+    public void rateOne(ActionEvent actionEvent) {
+        ratingsManager.addFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),-5));
+    }
+
+    public void rateTwo(ActionEvent actionEvent) {
+        ratingsManager.addFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),-3));
+    }
+
+    public void rateThree(ActionEvent actionEvent) {
+        ratingsManager.addFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),0));
+    }
+
+    public void rateFour(ActionEvent actionEvent) {
+        ratingsManager.addFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),3));
+    }
+
+    public void rateFive(ActionEvent actionEvent) {
+        ratingsManager.addFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),5));
+    }
 }
 

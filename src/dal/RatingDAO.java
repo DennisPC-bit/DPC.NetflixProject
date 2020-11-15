@@ -38,6 +38,25 @@ public class RatingDAO {
         return ratingsArrayList;
     }
 
+    public void saveRatings(){
+        File file = new File(RATINGS_DATA_SOURCE);
+        try{
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+                for(FilmRating filmRating: ratingsArrayList){
+                    bw.write(ratingsManager.inverseParseRating(filmRating));
+                    bw.newLine();
+                }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void addFilmRating(FilmRating filmRating){
+        ratingsArrayList.removeIf(filmRating1 -> filmRating1.getUserId()==filmRating.getUserId()&&filmRating1.getFilmId()==filmRating.getFilmId());
+        ratingsArrayList.add(filmRating);
+        saveRatings();
+    }
+
     public int getUsersRatings(User user, Film film) {
         for (FilmRating filmRating : ratingsArrayList) {
             ratingsArrayList.sort(Comparator.comparingInt(FilmRating::getFilmId));

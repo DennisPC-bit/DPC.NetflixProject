@@ -24,7 +24,12 @@ public class RatingsManager {
         return new FilmRating(Integer.parseInt(rating[0]), Integer.parseInt(rating[1]), Integer.parseInt(rating[2]));
         }
         return null;
-        }
+    }
+
+    public String inverseParseRating(FilmRating filmRating){
+        return filmRating.getFilmId() + "," + filmRating.getUserId() + "," + filmRating.getRating();
+    }
+
 
     public double ratingAVG(Film film) {
         if (film != null) {
@@ -41,6 +46,10 @@ public class RatingsManager {
 
     public int getUsersRatingsForFilm(User user,Film film){
         return ratingDAO.getUsersRatings(user, film);
+    }
+
+    public void addFilmRating(FilmRating filmRating){
+        ratingDAO.addFilmRating(filmRating);
     }
 }
 

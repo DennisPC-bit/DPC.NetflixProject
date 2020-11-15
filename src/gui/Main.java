@@ -26,8 +26,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        SearchTool searchTool = new SearchTool();
-        searchTool.binarySearch(0,100,69,10);
         launch(args);
     }
 }
