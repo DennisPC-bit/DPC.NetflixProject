@@ -38,6 +38,7 @@ public class RatingsManager {
     }
 
     public ArrayList<FilmRating> getAllRatings(){return ratingDAO.getAllRatings();}
+
     public int getUsersRatingsForFilm(User user,Film film){
         return ratingDAO.getUsersRatings(user, film);
     }

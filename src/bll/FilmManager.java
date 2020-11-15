@@ -6,6 +6,8 @@ import dal.FilmDAO;
 import gui.UserInterfaceController;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
+
 public class FilmManager {
     private String filmData;
     private String[] film;
@@ -15,10 +17,10 @@ public class FilmManager {
     public FilmManager(UserInterfaceController userInterfaceController){
         this.userInterfaceController=userInterfaceController;
     }
-    public ObservableList<Film> getAllFilms(){
+    public ArrayList<Film> getAllFilms(){
         return filmDAO.getAllFilms();
     }
-    public ObservableList<Film> getFilms(){
+    public ArrayList<Film> getFilms(){
         return userInterfaceController.getAllFilms();
     }
     public int getUniqueFilmId(){

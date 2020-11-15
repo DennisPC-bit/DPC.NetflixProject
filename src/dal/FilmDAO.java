@@ -29,7 +29,7 @@ public class FilmDAO {
         return index;
     }
 
-    public ObservableList<Film> getAllFilms() {
+    public ArrayList<Film> getAllFilms() {
         File file = new File(FILM_SOURCE);
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -46,7 +46,7 @@ public class FilmDAO {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return FXCollections.observableArrayList(films);
+        return films;
     }
 
     public ObservableList<Film> searchForFilm(String searchString) {

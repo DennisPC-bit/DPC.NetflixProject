@@ -8,6 +8,7 @@ import bll.RatingsManager;
 import bll.UserManager;
 import gui.Dialogs.AddFilmDialogController;
 import gui.Dialogs.EditFilmDialogController;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,7 +33,7 @@ public class UserInterfaceController {
     this.userManager = new UserManager(this);
     this.ratingsManager = new RatingsManager(this);
     this.autoSave=true;
-    this.user=userManager.getAllUsers().get(492);
+    this.user=userManager.getAllUsers().get(1);
     }
     private FilmManager filmManager;
     private UserManager userManager;
@@ -75,8 +76,8 @@ public class UserInterfaceController {
         this.movieIdColumn.setCellValueFactory(cellData -> cellData.getValue().getId());
     }
 
-    public ObservableList<Film> getAllFilms() {
-        return this.films;
+    public ArrayList<Film> getAllFilms() {
+        return filmManager.getAllFilms();
     }
     public ArrayList<FilmRating> getAllRatings(){return ratingsManager.getAllRatings();}
     public ArrayList<User> getAllUsers(){
@@ -87,7 +88,7 @@ public class UserInterfaceController {
     public Film getSelectedFilm(){return selectedFilm;}
     public Stage getAddFilmDialogStage() {return addFilmDialogStage;}
     public void loadFilms(){
-        this.films = filmManager.getAllFilms();
+        this.films = FXCollections.observableArrayList(filmManager.getAllFilms());
     }
 
     public void searchWithKey(KeyEvent actionEvent) {search(); }
@@ -109,15 +110,11 @@ public class UserInterfaceController {
     public void changeLabels(Film film){
         filmLabel.setText(film.getTitle().getValue());
         dateLabel.setText(film.getDate().getValue().toString());
-        ratingLabel.setText(String.valueOf(getUsersFilmRating(film))); // fix
+        ratingLabel.setText(String.valueOf(getUsersFilmRating(user,film))); // fix
     }
 
-    public int getUsersFilmRating(Film film){
-        for(FilmRating filmRating: user.getFilmsRated()){
-            if(filmRating.getFilmId()==film.getIntId())
-                return filmRating.getRating();}
-
-        return 0;
+    public int getUsersFilmRating(User user, Film film){
+        return ratingsManager.getUsersRatingsForFilm(user,film);
     }
 
 

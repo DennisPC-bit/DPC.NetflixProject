@@ -1,7 +1,12 @@
 package gui;
 
 import be.Film;
+import be.FilmRating;
+import be.User;
+import bll.FilmManager;
+import bll.SearchTool;
 import bll.UserManager;
+import dal.FilmDAO;
 import dal.UserDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -21,8 +26,8 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+        SearchTool searchTool = new SearchTool();
+        searchTool.binarySearch(0,100,69,10);
         launch(args);
-        UserInterfaceController userInterfaceController = new UserInterfaceController();
-        System.out.println(userInterfaceController.getAllUsers().get(0).getName());
     }
 }
