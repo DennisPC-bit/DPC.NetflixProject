@@ -42,7 +42,7 @@ public class RatingDAO {
         File file = new File(RATINGS_DATA_SOURCE);
         try{
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-                for(FilmRating filmRating: ratingsArrayList){
+                for(FilmRating filmRating: ratingsManager.getAllRatings()){
                     bw.write(ratingsManager.inverseParseRating(filmRating));
                     bw.newLine();
                 }
@@ -58,10 +58,10 @@ public class RatingDAO {
     }
 
     public int getUsersRatings(User user, Film film) {
+        ratingsArrayList.sort(Comparator.comparingInt(FilmRating::getFilmId));
         for (FilmRating filmRating : ratingsArrayList) {
-            ratingsArrayList.sort(Comparator.comparingInt(FilmRating::getFilmId));
-            if (filmRating.getUserId() == user.getId() && filmRating.getFilmId() == film.getIntId())
-                return filmRating.getRating();
+            if (filmRating.getUserId() == user.getId() && filmRating.getFilmId() == film.getIntId()){
+                return filmRating.getRating();}
         }
         return 0;
     }
