@@ -60,4 +60,32 @@ public class RatingDAO {
             e.printStackTrace();
         }
     }
+
+    public void makeFile(){
+        try {
+            RandomAccessFile raf = new RandomAccessFile(new File("data/ratings.dat"),"rw");
+            for(FilmRating filmRating : ratingsArrayList){
+                raf.writeInt(filmRating.getFilmId());
+                raf.writeInt(filmRating.getUserId());
+                raf.writeInt(filmRating.getRating());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readFile() // virker
+    {
+        try {
+            RandomAccessFile raf = new RandomAccessFile(new File("data/ratings.dat"),"r");
+            for(int i=0;i<raf.length()/12;i++)
+                System.out.println(new FilmRating(raf.readInt(),raf.readInt(),raf.readInt()).getUserId());
+        } catch (FileNotFoundException fileNotFoundException) {
+            fileNotFoundException.printStackTrace();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
 }

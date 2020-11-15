@@ -8,6 +8,8 @@ import dal.RatingDAO;
 import dal.UserDAO;
 import gui.UserInterfaceController;
 
+import java.io.File;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 public class RatingsManager {

@@ -18,7 +18,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -62,6 +66,7 @@ public class UserInterfaceController {
     private Stage changeUserStage;
     private ObservableList<Film> films;
     private ObservableList<User> users;
+    private ObservableList<FilmRating> ratings;
     private boolean autoSave;
     private User user;
 
@@ -81,7 +86,7 @@ public class UserInterfaceController {
         this.movieIdColumn.setCellValueFactory(cellData -> cellData.getValue().getId());
     }
 
-    public ArrayList<FilmRating> loadRatings(){return ratingsManager.getAllRatings();}
+    public void loadRatings(){this.ratings=FXCollections.observableArrayList(ratingsManager.getAllRatings());}
     public void loadUsers(){this.users=FXCollections.observableArrayList(userManager.loadUsers()); }
     public void loadFilms(){
         this.films = FXCollections.observableArrayList(filmManager.loadFilms());
@@ -251,5 +256,7 @@ public class UserInterfaceController {
         if(user!=null)
         ratingsManager.addFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),5));
     }
+
+
 }
 
