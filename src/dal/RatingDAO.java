@@ -80,13 +80,16 @@ public class RatingDAO {
     {
         try (RandomAccessFile raf = new RandomAccessFile(new File("data/ratings.dat"),"r")){
             while(raf.getFilePointer()<raf.length()){
-            if(raf.readInt()!=filmId) {
-                raf.skipBytes(8);
-            }
-            else if(raf.readInt()!=userId){
-                raf.skipBytes(4);}
-            else {
-                return raf.readInt();}
+                int film = raf.readInt();
+                if(film>filmId)
+                    return-1;
+                if(film!=filmId) {
+                    raf.skipBytes(8);
+                }
+                else if(raf.readInt()!=userId){
+                    raf.skipBytes(4);}
+                else {
+                    return raf.readInt();}
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -114,6 +117,8 @@ public class RatingDAO {
                     raf.writeInt(user);
                     raf.writeInt(newRating);
                 }
+                if(film>filmId)
+                    return;
             }
         } catch (FileNotFoundException fileNotFoundException) {
             fileNotFoundException.printStackTrace();
