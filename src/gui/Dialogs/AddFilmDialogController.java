@@ -3,7 +3,6 @@ package gui.Dialogs;
 import be.Film;
 import be.InputAlert;
 import gui.UserInterfaceController;
-import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 
 public class AddFilmDialogController {
@@ -16,7 +15,7 @@ public class AddFilmDialogController {
         this.userInterfaceController = userInterfaceController;
     }
 
-    public void confirmButton(ActionEvent actionEvent) {
+    public void confirmButton() {
         if(titlefield!=null&&yearField!=null){
             if(!titlefield.getText().isEmpty()&&!yearField.getText().isEmpty()) {
                 try {
@@ -34,7 +33,7 @@ public class AddFilmDialogController {
         }
     }
 
-    public void cancelButton(ActionEvent actionEvent) {
+    public void cancelButton() {
     userInterfaceController.closeAddFilmDialogStage();
     }
 }
