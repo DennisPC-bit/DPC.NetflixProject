@@ -1,6 +1,10 @@
 package dal;
+import be.Film;
 import be.User;
 import bll.UserManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -35,5 +39,21 @@ public class UserDAO {
                 index++;
         }
         return index;
+    }
+
+    public ObservableList<User> searchForUser(String searchString) {
+        ArrayList<User> userSearch = new ArrayList<>();
+        File file = new File(USER_DATA_SOURCE);
+        try (BufferedReader br = new BufferedReader(new FileReader(file))){
+            String line = br.readLine();
+            while (line != null) {
+                if (!line.isEmpty() && line.toLowerCase().contains(searchString.toLowerCase()))
+                    userSearch.add(userParser.parseUser(line));
+                line = br.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return FXCollections.observableArrayList(userSearch);
     }
 }

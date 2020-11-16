@@ -3,6 +3,8 @@ package bll;
 import be.User;
 import dal.UserDAO;
 import gui.UserInterfaceController;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 
 public class UserManager {
@@ -21,4 +23,7 @@ public class UserManager {
     public ArrayList<User> loadUsers(){
         return userDAO.loadUsers();
     }
+
+    public ObservableList<User> searchForUser (String searchString){return userDAO.searchForUser(searchString);}
+
 }

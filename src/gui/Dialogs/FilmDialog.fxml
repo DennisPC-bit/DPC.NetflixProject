@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="143.0" prefWidth="180.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Dialogs.EditFilmDialogController">
+<AnchorPane prefHeight="143.0" prefWidth="180.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Dialogs.FilmDialogController">
     <children>
         <GridPane prefHeight="133.0" prefWidth="170.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
             <columnConstraints>
@@ -34,15 +34,15 @@
                             <children>
                                 <TextField fx:id="titlefield" promptText="Title" GridPane.columnIndex="1" />
                                 <TextField fx:id="yearField" promptText="Year" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <Label text="Movie title:" />
-                                <Label text="Movie Year" GridPane.rowIndex="1" />
+                                <Label text="Film title:" />
+                                <Label text="Film Year" GridPane.rowIndex="1" />
                             </children>
                         </GridPane>
                     </children>
                 </AnchorPane>
                 <AnchorPane GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                     <children>
-                        <Label alignment="CENTER" text="Add Movie" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Label fx:id="filmDialogTitle" alignment="CENTER" text="Add Film" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                     </children>
                 </AnchorPane>
                 <GridPane GridPane.rowIndex="2">

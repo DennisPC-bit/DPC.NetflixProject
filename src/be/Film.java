@@ -1,6 +1,4 @@
 package be;
-
-
 import javafx.beans.property.*;
 
 public class Film {
@@ -24,7 +22,6 @@ public class Film {
     public StringProperty getTitle() {
         return this.title;
     }
-
     public void setDate(int date) {
         this.date.set(date);
     }

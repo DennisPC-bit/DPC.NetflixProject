@@ -6,8 +6,7 @@ import be.User;
 import bll.FilmManager;
 import bll.RatingsManager;
 import bll.UserManager;
-import gui.Dialogs.AddFilmDialogController;
-import gui.Dialogs.EditFilmDialogController;
+import gui.Dialogs.FilmDialogController;
 import gui.Dialogs.LogInScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,15 +18,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.util.Comparator;
 
 public class UserInterfaceController {
-
-
 
     public UserInterfaceController(){
     this.filmManager = new FilmManager(this);
@@ -58,9 +52,7 @@ public class UserInterfaceController {
     @FXML
     private Film selectedFilm;
     @FXML
-    private Stage addFilmDialogStage;
-    @FXML
-    private Stage editFilmDialogStage;
+    private Stage filmDialogStage;
     @FXML
     private Stage changeUserStage;
     private ObservableList<Film> films;
@@ -92,7 +84,6 @@ public class UserInterfaceController {
     }
     public int getUniqueFilmId(){return filmManager.getUniqueFilmId();}
     public Film getSelectedFilm(){return selectedFilm;}
-    public Stage getAddFilmDialogStage() {return addFilmDialogStage;}
     public ObservableList<User> getUsers() {return users;}
     public User getUser() {return this.user;}
 
@@ -139,27 +130,6 @@ public class UserInterfaceController {
         filmManager.saveFilmChanges(autoSave);
     }
 
-    public void openAddFilmDialog() {
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("Dialogs/AddFilmDialog.fxml"));
-        try {
-            AnchorPane addFilmLayout=loader.load();
-            Scene scene=new Scene(addFilmLayout);
-            addFilmDialogStage = new Stage();
-            addFilmDialogStage.setScene(scene);
-            AddFilmDialogController controller = loader.getController();
-            controller.setUserInterfaceController(this);
-            addFilmDialogStage.initModality(Modality.APPLICATION_MODAL);
-            addFilmDialogStage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void closeAddFilmDialogStage(){
-        addFilmDialogStage.close();
-    }
-
     public void editFilm(Film film){
         for(Film filmCheck: films){
             if(filmCheck.getIntId()==film.getIntId()){
@@ -172,38 +142,49 @@ public class UserInterfaceController {
         }
     }
 
+    public void openAddFilmDialog() {
+        openFilmDialog(true);
+    }
+
     public void openEditFilmDialog() {
         if(selectedFilm!=null) {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("Dialogs/EditFilmDialog.fxml"));
-            try {
-                AnchorPane addFilmLayout=loader.load();
-                Scene scene=new Scene(addFilmLayout);
-                editFilmDialogStage = new Stage();
-                editFilmDialogStage.setScene(scene);
-                EditFilmDialogController controller = loader.getController();
-                controller.setUserInterfaceController(this);
-                editFilmDialogStage.initModality(Modality.APPLICATION_MODAL);
-                editFilmDialogStage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            openFilmDialog(false);
         }
     }
 
-    public void closeEditFilmDialogStage(){
-        editFilmDialogStage.close();
+    private void openFilmDialog(boolean isAddFilm) {
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("Dialogs/FilmDialog.fxml"));
+        try {
+            AnchorPane addFilmLayout=loader.load();
+            Scene scene=new Scene(addFilmLayout);
+            filmDialogStage = new Stage();
+            filmDialogStage.setScene(scene);
+            FilmDialogController controller = loader.getController();
+            if(!isAddFilm)
+                controller.setUserInterfaceController(this);
+            controller.isAddFilm(isAddFilm);
+            controller.setFilmDialogTitle(isAddFilm?"Add Film":"Edit Film");
+            filmDialogStage.initModality(Modality.APPLICATION_MODAL);
+            filmDialogStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void closeFilmDialogStage(){
+        filmDialogStage.close();
     }
 
     public void changeUser() {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("Dialogs/LogInScreen.fxml"));
         try {
             AnchorPane changeUser = loader.load();
+            LogInScreenController controller = loader.getController();
+            controller.setUserInterfaceController(this);
             changeUserStage=new Stage();
             changeUserStage.setScene(new Scene(changeUser));
             changeUserStage.initModality(Modality.APPLICATION_MODAL);
             changeUserStage.show();
-            LogInScreenController controller = loader.getController();
-            controller.setUserInterfaceController(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -234,29 +215,30 @@ public class UserInterfaceController {
 
     public void rateOne() {
         if(user!=null)
-        ratingsManager.addFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),-5));
+        ratingsManager.setFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),-5));
     }
 
     public void rateTwo() {
         if(user!=null)
-        ratingsManager.addFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),-3));
+        ratingsManager.setFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),-3));
     }
 
     public void rateThree() {
         if(user!=null)
-        ratingsManager.addFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),1));
+        ratingsManager.setFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),1));
     }
 
     public void rateFour() {
         if(user!=null)
-        ratingsManager.addFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),3));
+        ratingsManager.setFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),3));
     }
 
     public void rateFive() {
         if(user!=null)
-        ratingsManager.addFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),5));
+        ratingsManager.setFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),5));
     }
 
-
+    public ObservableList<User> searchForUsers(String searchString){
+        return userManager.searchForUser(searchString);
+    }
 }
-

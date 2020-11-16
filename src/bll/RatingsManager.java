@@ -32,7 +32,7 @@ public class RatingsManager {
         return ratingDAO.getUsersRatings(user, film);
     }
 
-    public void addFilmRating(FilmRating filmRating){
+    public void setFilmRating(FilmRating filmRating){
         ratingDAO.addFilmRating(filmRating);
     }
 

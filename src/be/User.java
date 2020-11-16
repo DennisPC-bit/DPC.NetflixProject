@@ -1,11 +1,10 @@
 package be;
 
-import java.util.ArrayList;
+import javafx.beans.property.SimpleStringProperty;
 
 public class User {
     private String name;
     private int id;
-    private ArrayList<FilmRating> filmsRated;
 
     public User(String name, int id){
         this.name=name;
@@ -20,5 +19,9 @@ public class User {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public SimpleStringProperty toSimpleStringProperty(){
+        return new SimpleStringProperty(this.getId() + " " + this.getName());
     }
 }
