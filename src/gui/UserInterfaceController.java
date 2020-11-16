@@ -10,11 +10,13 @@ import gui.Dialogs.FilmDialogController;
 import gui.Dialogs.LogInScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -33,6 +35,8 @@ public class UserInterfaceController {
     private FilmManager filmManager;
     private UserManager userManager;
     private RatingsManager ratingsManager;
+    @FXML
+    public GridPane rateButtons;
     @FXML
     private Label ratingLabel;
     @FXML
@@ -55,6 +59,8 @@ public class UserInterfaceController {
     private Stage filmDialogStage;
     @FXML
     private Stage changeUserStage;
+    @FXML
+    private AnchorPane sidePanel;
     private ObservableList<Film> films;
     private ObservableList<User> users;
     private ObservableList<FilmRating> ratings;
@@ -67,14 +73,32 @@ public class UserInterfaceController {
         this.loadRatings();
         this.loadUsers();
         this.filmTable.setItems(this.films);
+        hideSidePanel(true);
+        rateButtonDisable();
 
         this.filmTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             this.selectedFilm = (Film) newValue;
-            if(selectedFilm!=null) {changeLabels(selectedFilm);}
+            if(selectedFilm!=null) {changeLabels(selectedFilm);
+            hideSidePanel(false);}
         });
         this.filmColumn.setCellValueFactory(cellData -> cellData.getValue().getTitle());
         this.dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDate());
         this.movieIdColumn.setCellValueFactory(cellData -> cellData.getValue().getId());
+    }
+
+    private void rateButtonDisable() {
+        rateButtons.setVisible(false);
+    }
+
+    private void hideSidePanel(boolean hide) {
+        if(hide){
+        this.sidePanel.setMaxWidth(0);
+        this.sidePanel.setMinWidth(0);
+        }
+        else{
+            this.sidePanel.setMaxWidth(250);
+            this.sidePanel.setMinWidth(250);
+        }
     }
 
     public void loadRatings(){this.ratings=FXCollections.observableArrayList(ratingsManager.loadRatings());}
@@ -89,7 +113,8 @@ public class UserInterfaceController {
 
     public ObservableList<Film> getAllFilms() {return films;}
 
-    public void setUser(User user) {this.user = user;}
+    public void setUser(User user) {this.user = user;
+        rateButtons.setVisible(true);}
 
     public void searchWithKey() {search(); }
     public void clearBtn() {searchField.setText("");
@@ -165,6 +190,7 @@ public class UserInterfaceController {
             controller.isAddFilm(isAddFilm);
             controller.setFilmDialogTitle(isAddFilm?"Add Film":"Edit Film");
             filmDialogStage.initModality(Modality.APPLICATION_MODAL);
+            filmDialogStage.alwaysOnTopProperty();
             filmDialogStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -184,6 +210,7 @@ public class UserInterfaceController {
             changeUserStage=new Stage();
             changeUserStage.setScene(new Scene(changeUser));
             changeUserStage.initModality(Modality.APPLICATION_MODAL);
+            changeUserStage.alwaysOnTopProperty();
             changeUserStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -248,5 +275,11 @@ public class UserInterfaceController {
 
     public ObservableList<User> searchForUsers(String searchString){
         return userManager.searchForUser(searchString);
+    }
+
+    public void hideSideMenu() {
+        sidePanel.setMaxWidth(0);
+        sidePanel.setMinWidth(0);
+        this.user=null;
     }
 }
