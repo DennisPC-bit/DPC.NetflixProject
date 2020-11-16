@@ -25,6 +25,7 @@ public class RatingsManager {
         return filmRating.getFilmId() + "," + filmRating.getUserId() + "," + filmRating.getRating();
     }
 
+
     public ArrayList<FilmRating> loadRatings(){return ratingDAO.loadRatings();}
 
     public int getUsersRatingsForFilm(User user,Film film){
@@ -34,4 +35,17 @@ public class RatingsManager {
     public void addFilmRating(FilmRating filmRating){
         ratingDAO.addFilmRating(filmRating);
     }
+
+
+    /*
+    public void addFilmRating(FilmRating filmRating){
+        ratingDAO.editRatingInFile(filmRating.getFilmId(), filmRating.getUserId(), filmRating.getRating());
+    }
+
+    public int getUsersRatingsForFilm(User user,Film film){
+        return ratingDAO.findRatingInFile(film.getIntId(), user.getId());
+    }
+
+    public void makeRatingsFile(){ratingDAO.makeFile();}
+     */
 }

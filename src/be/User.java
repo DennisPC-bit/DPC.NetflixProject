@@ -15,20 +15,10 @@ public class User {
     public String getName() {
         return name;
     }
-
     public int getId() {
         return id;
     }
-
-    public ArrayList<FilmRating> getFilmsRated() {
-        return filmsRated;
-    }
-
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void addFilmRating(FilmRating filmRating){
-        filmsRated.add(filmRating);
     }
 }

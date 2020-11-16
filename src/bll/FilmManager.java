@@ -20,7 +20,6 @@ public class FilmManager {
         return filmDAO.loadFilms();
     }
     public ObservableList<Film> getAllFilms(){return userInterfaceController.getAllFilms();}
-
     public int getUniqueFilmId(){
         return filmDAO.getUniqueFilmId();
     }

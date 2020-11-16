@@ -62,6 +62,7 @@ public class RatingDAO {
     }
 
     public void makeFile(){
+        loadRatings();
         try (RandomAccessFile raf = new RandomAccessFile(new File("data/ratings.dat"),"rw")){
             for(FilmRating filmRating : ratingsArrayList){
                 raf.writeInt(filmRating.getFilmId());
@@ -77,17 +78,18 @@ public class RatingDAO {
 
     public int findRatingInFile(int filmId, int userId) // virker
     {
-        try (RandomAccessFile raf = new RandomAccessFile(new File("data/ratings.dat"),"rw")){
-            while(raf.getFilePointer()<=raf.length()){
-                if(!(raf.readInt()==filmId&&raf.readInt()==userId))
-                    raf.skipBytes(4);
-                else
-                {return raf.readInt();}
+        try (RandomAccessFile raf = new RandomAccessFile(new File("data/ratings.dat"),"r")){
+            while(raf.getFilePointer()<raf.length()){
+            if(raf.readInt()!=filmId) {
+                raf.skipBytes(8);
             }
-        } catch (FileNotFoundException fileNotFoundException) {
-            fileNotFoundException.printStackTrace();
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
+            else if(raf.readInt()!=userId){
+                raf.skipBytes(4);}
+            else {
+                return raf.readInt();}
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return -1;
     }
@@ -95,7 +97,7 @@ public class RatingDAO {
     public void editRatingInFile(int filmId, int userId, int newRating) // manger revidering
     {
         try (RandomAccessFile raf = new RandomAccessFile(new File("Ratings.dat"),"rw")){
-            while(raf.getFilePointer()<=raf.length()){
+            while(raf.getFilePointer()<raf.length()){
                 int film=raf.readInt();
                 int user=raf.readInt();
                 int rating=raf.readInt();
@@ -105,12 +107,12 @@ public class RatingDAO {
                 }
                 else {
                     overWritten=true;
-                    raf.writeInt(rating);
+                    raf.writeInt(newRating);
                 }
                 if(!overWritten){
                     raf.writeInt(film);
                     raf.writeInt(user);
-                    raf.writeInt(rating);
+                    raf.writeInt(newRating);
                 }
             }
         } catch (FileNotFoundException fileNotFoundException) {
