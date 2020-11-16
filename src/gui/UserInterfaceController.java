@@ -194,7 +194,14 @@ public class UserInterfaceController {
         changeUserStage.close();
     }
 
-    public void removeFilm() {
+    public void deleteFilm() {
+        String deleteConfirmationText = "Confirm deleting" + " " + selectedFilm.getIntId() + " " + selectedFilm.getTitle().getValue();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText(deleteConfirmationText);
+        alert.setTitle(deleteConfirmationText);
+        alert.setHeaderText(deleteConfirmationText);
+        alert.showAndWait();
+        if(alert.getResult().getText().equals("OK")){
         for(Film filmCheck: films){
             if(filmCheck.getIntId()== selectedFilm.getIntId()){
                 films.remove(filmCheck);
@@ -202,6 +209,7 @@ public class UserInterfaceController {
                 filmManager.saveFilmChanges(autoSave);
                 break;
             }
+        }
         }
     }
 

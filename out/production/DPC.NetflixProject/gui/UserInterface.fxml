@@ -196,7 +196,7 @@
                               </AnchorPane>
                               <AnchorPane GridPane.columnIndex="2">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#removeFilm" text="Delete" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                    <Button mnemonicParsing="false" onAction="#deleteFilm" text="Delete" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane>
