@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.ArrayList;
 import java.util.Comparator;
 
 public class UserInterfaceController {
@@ -86,7 +85,7 @@ public class UserInterfaceController {
         this.movieIdColumn.setCellValueFactory(cellData -> cellData.getValue().getId());
     }
 
-    public void loadRatings(){this.ratings=FXCollections.observableArrayList(ratingsManager.getAllRatings());}
+    public void loadRatings(){this.ratings=FXCollections.observableArrayList(ratingsManager.loadRatings());}
     public void loadUsers(){this.users=FXCollections.observableArrayList(userManager.loadUsers()); }
     public void loadFilms(){
         this.films = FXCollections.observableArrayList(filmManager.loadFilms());
@@ -162,7 +161,7 @@ public class UserInterfaceController {
     }
 
     public void editFilm(Film film){
-        for(Film filmCheck: films)
+        for(Film filmCheck: films){
             if(filmCheck.getIntId()==film.getIntId()){
                 films.remove(filmCheck);
                 films.add(film);
@@ -170,6 +169,7 @@ public class UserInterfaceController {
                 filmManager.saveFilmChanges(autoSave);
                 break;
             }
+        }
     }
 
     public void openEditFilmDialog() {

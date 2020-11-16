@@ -16,7 +16,7 @@ public class RatingDAO {
         this.ratingsManager = ratingsManager;
     }
 
-    public ArrayList<FilmRating> getAllRatings() {
+    public ArrayList<FilmRating> loadRatings() {
         File file = new File(RATINGS_DATA_SOURCE);
         try (BufferedReader br = new BufferedReader(new FileReader(file))){
             String line = br.readLine();
@@ -62,8 +62,7 @@ public class RatingDAO {
     }
 
     public void makeFile(){
-        try {
-            RandomAccessFile raf = new RandomAccessFile(new File("data/ratings.dat"),"rw");
+        try (RandomAccessFile raf = new RandomAccessFile(new File("data/ratings.dat"),"rw")){
             for(FilmRating filmRating : ratingsArrayList){
                 raf.writeInt(filmRating.getFilmId());
                 raf.writeInt(filmRating.getUserId());
@@ -76,12 +75,44 @@ public class RatingDAO {
         }
     }
 
-    public void readFile() // virker
+    public int findRatingInFile(int filmId, int userId) // virker
     {
-        try {
-            RandomAccessFile raf = new RandomAccessFile(new File("data/ratings.dat"),"r");
-            for(int i=0;i<raf.length()/12;i++)
-                System.out.println(new FilmRating(raf.readInt(),raf.readInt(),raf.readInt()).getUserId());
+        try (RandomAccessFile raf = new RandomAccessFile(new File("data/ratings.dat"),"rw")){
+            while(raf.getFilePointer()<=raf.length()){
+                if(!(raf.readInt()==filmId&&raf.readInt()==userId))
+                    raf.skipBytes(4);
+                else
+                {return raf.readInt();}
+            }
+        } catch (FileNotFoundException fileNotFoundException) {
+            fileNotFoundException.printStackTrace();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        return -1;
+    }
+
+    public void editRatingInFile(int filmId, int userId, int newRating) // manger revidering
+    {
+        try (RandomAccessFile raf = new RandomAccessFile(new File("Ratings.dat"),"rw")){
+            while(raf.getFilePointer()<=raf.length()){
+                int film=raf.readInt();
+                int user=raf.readInt();
+                int rating=raf.readInt();
+                boolean overWritten=false;
+                if(!(film==filmId&&user==userId)){
+                    raf.skipBytes(4);
+                }
+                else {
+                    overWritten=true;
+                    raf.writeInt(rating);
+                }
+                if(!overWritten){
+                    raf.writeInt(film);
+                    raf.writeInt(user);
+                    raf.writeInt(rating);
+                }
+            }
         } catch (FileNotFoundException fileNotFoundException) {
             fileNotFoundException.printStackTrace();
         } catch (IOException ioException) {
