@@ -32,7 +32,7 @@
                                 <RowConstraints maxHeight="78.0" minHeight="10.0" prefHeight="78.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <TextField fx:id="titlefield" promptText="Title" GridPane.columnIndex="1" />
+                                <TextField fx:id="titleField" promptText="Title" GridPane.columnIndex="1" />
                                 <TextField fx:id="yearField" promptText="Year" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                 <Label text="Film title:" />
                                 <Label text="Film Year" GridPane.rowIndex="1" />

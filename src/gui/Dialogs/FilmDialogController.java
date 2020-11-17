@@ -8,14 +8,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class FilmDialogController {
-    public TextField titlefield;
+    public TextField titleField;
     public TextField yearField;
     public Label filmDialogTitle;
     private UserInterfaceController userInterfaceController;
     private final InputAlert inputAlert = new InputAlert();
     private boolean isAddFilm;
-    private String EMPTY_ALERT = "TITLEFIELD OR YEARFIELD EMPTY";
-    private String YEAR_ALERT = "INVALID YEAR";
+    private final String EMPTY_ALERT = "Titlefield or Yearfield is Empty!";
+    private final String YEAR_ALERT = "Invalid Year";
 
     public void isAddFilm(boolean isAddFilm){
         this.isAddFilm=isAddFilm;
@@ -28,7 +28,7 @@ public class FilmDialogController {
     public void setUserInterfaceController(UserInterfaceController userInterfaceController) {
         this.userInterfaceController = userInterfaceController;
         if(userInterfaceController.getSelectedFilm()!=null&&!isAddFilm){
-        titlefield.setText(userInterfaceController.getSelectedFilmTitle());
+        titleField.setText(userInterfaceController.getSelectedFilmTitle());
         yearField.setText(userInterfaceController.getSelectedFilmYear());
         }
     }
@@ -39,31 +39,26 @@ public class FilmDialogController {
             if(!isAddFilm)
                 tryToEditFilm(userInterfaceController.getSelectedFilm());
             else
-                tryToAddFilm(new Film(userInterfaceController.getUniqueFilmId(), Integer.parseInt(yearField.getText()), titlefield.getText()));}
+                tryToAddFilm(new Film(userInterfaceController.getUniqueFilmId(), Integer.parseInt(yearField.getText()), titleField.getText()));}
         else
             inputAlert.showAlert(EMPTY_ALERT);
-        }
-        catch (NumberFormatException e)
+        } catch (NumberFormatException e)
         {
             inputAlert.showAlert(YEAR_ALERT);
         }
     }
 
     private boolean fieldsAreValid() {
-        return titlefield != null && yearField != null
-          && (!titlefield.getText().isEmpty() && !yearField.getText().isEmpty());
+        return titleField != null && yearField != null
+          && (!titleField.getText().isEmpty() && !yearField.getText().isEmpty());
     }
 
     private void tryToEditFilm(Film editedFilm) throws NumberFormatException{
-        if(!titlefield.getText().isEmpty()&&!yearField.getText().isEmpty()) {
-            editedFilm.setTitle(titlefield.getText());
+
+            editedFilm.setTitle(titleField.getText());
             editedFilm.setDate(Integer.parseInt(yearField.getText()));
             userInterfaceController.editFilm(editedFilm);
             userInterfaceController.closeWindow();
-        }
-        else{
-        inputAlert.showAlert(EMPTY_ALERT);
-        }
     }
 
     private void tryToAddFilm(Film film) throws NumberFormatException {

@@ -3,7 +3,6 @@ package gui.Dialogs;
 import be.InputAlert;
 import be.User;
 import gui.UserInterfaceController;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
@@ -11,10 +10,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 public class LogInScreenController {
+    private UserInterfaceController userInterfaceController = new UserInterfaceController();
+    private final InputAlert inputAlert = new InputAlert();
     @FXML
     private TextField searchUser;
     @FXML
-    private TableView userTable;
+    private TableView<User> userTable;
     @FXML
     private TableColumn<User,String> userTableColumn;
     @FXML
@@ -22,9 +23,8 @@ public class LogInScreenController {
     @FXML
     private PasswordField passWordField;
     private int userId;
-    private UserInterfaceController userInterfaceController = new UserInterfaceController();
-    private final InputAlert inputAlert = new InputAlert();
     private User selectedUser;
+    private String INVALID_ID_ALERT = "Invalid ID";
 
     public void initialize(){
         this.userTable.setItems(userInterfaceController.searchForUsers(""));
@@ -45,7 +45,7 @@ public class LogInScreenController {
         this.userInterfaceController=userInterfaceController;
     }
 
-    public void confirmButton(ActionEvent actionEvent) {
+    public void confirmButton() {
         if(idField!=null){
             try {
             userId=Integer.parseInt(idField.getText());
@@ -59,8 +59,8 @@ public class LogInScreenController {
                 }
             }
             if(!match)
-            inputAlert.showAlert("Invalid ID");
-        } catch(NumberFormatException e){inputAlert.showAlert("Invalid ID");}
+            inputAlert.showAlert(INVALID_ID_ALERT);
+        } catch(NumberFormatException e){inputAlert.showAlert(INVALID_ID_ALERT);}
         }
     }
 
