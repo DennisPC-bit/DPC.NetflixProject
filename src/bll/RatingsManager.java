@@ -5,8 +5,10 @@ import be.FilmRating;
 import be.User;
 import dal.RatingDAO;
 import gui.UserInterfaceController;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class RatingsManager {
     private UserInterfaceController userInterfaceController;

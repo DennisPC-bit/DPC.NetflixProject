@@ -6,6 +6,7 @@ import gui.UserInterfaceController;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class FilmManager {
     private String filmData;
@@ -45,5 +46,37 @@ public class FilmManager {
 
     public void saveFilmChanges(boolean save){
         filmDAO.saveFilmChanges(save);
+    }
+
+    public void deleteFilm(Film film) {
+        ObservableList<Film> films = userInterfaceController.getAllFilms();
+        for(Film filmCheck: films){
+            if(filmCheck.getIntId()== film.getIntId()){
+                films.remove(filmCheck);
+                films.sort(Comparator.comparingInt(Film::getIntId));
+                saveFilmChanges(userInterfaceController.getAutoSave());
+                break;
+            }
+        }
+    }
+
+    public void editFilm(Film film) {
+        ObservableList<Film> films = userInterfaceController.getAllFilms();
+        for (Film filmCheck : films) {
+            if (filmCheck.getIntId() == film.getIntId()) {
+                films.remove(filmCheck);
+                films.add(film);
+                films.sort(Comparator.comparingInt(Film::getIntId));
+                saveFilmChanges(userInterfaceController.getAutoSave());
+                break;
+            }
+        }
+    }
+
+    public void addFilm(Film film){
+        ObservableList<Film> films = userInterfaceController.getAllFilms();
+        films.add(film);
+        films.sort(Comparator.comparingInt(Film::getIntId));
+        saveFilmChanges(userInterfaceController.getAutoSave());
     }
 }
