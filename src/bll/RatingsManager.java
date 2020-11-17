@@ -32,8 +32,23 @@ public class RatingsManager {
         return ratingDAO.getUsersRatings(user, film);
     }
 
-    public void setFilmRating(FilmRating filmRating){
-        ratingDAO.addFilmRating(filmRating);
+    public void setFilmRating(FilmRating filmRating, boolean save){
+        ratingDAO.addFilmRating(filmRating, save);
+    }
+
+    public void saveRatings(){
+        ratingDAO.saveRatings(true);
+    }
+
+    public String putStars(int rating){
+        switch(rating){
+            case -5 -> {return "★☆☆☆☆";}
+            case -3 -> {return "★★☆☆☆";}
+            case 1 -> {return "★★★☆☆";}
+            case 3 -> {return "★★★★☆";}
+            case 5 -> {return "★★★★★";}
+            default -> {return "not rated yet.";}
+        }
     }
 
 

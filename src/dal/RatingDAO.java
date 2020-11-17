@@ -32,11 +32,11 @@ public class RatingDAO {
         return ratingsArrayList;
     }
 
-    public void addFilmRating(FilmRating filmRating){
+    public void addFilmRating(FilmRating filmRating, boolean save){
         ratingsArrayList.sort(Comparator.comparingInt(FilmRating::getUserId));
         ratingsArrayList.removeIf(filmRating1 -> filmRating1.getUserId()==filmRating.getUserId()&&filmRating1.getFilmId()==filmRating.getFilmId());
         ratingsArrayList.add(filmRating);
-        saveRatings();
+        saveRatings(save);
     }
 
     public int getUsersRatings(User user, Film film) {
@@ -48,7 +48,8 @@ public class RatingDAO {
         return 0;
     }
 
-    public void saveRatings(){
+    public void saveRatings(boolean save){
+        if(save){
         ratingsArrayList.sort(Comparator.comparingInt(FilmRating::getFilmId));
         File file = new File(RATINGS_DATA_SOURCE);
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
@@ -58,6 +59,7 @@ public class RatingDAO {
             }
         }catch (IOException e){
             e.printStackTrace();
+        }
         }
     }
 

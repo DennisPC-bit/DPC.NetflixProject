@@ -14,6 +14,8 @@ public class FilmDialogController {
     private UserInterfaceController userInterfaceController;
     private final InputAlert inputAlert = new InputAlert();
     private boolean isAddFilm;
+    private String EMPTY_ALERT = "TITLEFIELD OR YEARFIELD EMPTY";
+    private String YEAR_ALERT = "INVALID YEAR";
 
     public void isAddFilm(boolean isAddFilm){
         this.isAddFilm=isAddFilm;
@@ -25,53 +27,51 @@ public class FilmDialogController {
 
     public void setUserInterfaceController(UserInterfaceController userInterfaceController) {
         this.userInterfaceController = userInterfaceController;
-        titlefield.setText(userInterfaceController.getSelectedFilm().getTitle().getValue());
-        yearField.setText(userInterfaceController.getSelectedFilm().getDate().getValue().toString());
+        if(userInterfaceController.getSelectedFilm()!=null&&!isAddFilm){
+        titlefield.setText(userInterfaceController.getSelectedFilmTitle());
+        yearField.setText(userInterfaceController.getSelectedFilmYear());
+        }
     }
 
     public void confirmButton(ActionEvent actionEvent) {
-        if(titlefield!=null&&yearField!=null
-        &&(!titlefield.getText().isEmpty()&&!yearField.getText().isEmpty())){
-            if(!isAddFilm){
-                tryToEditFilm();
-            }
-            else{
-                tryToAddFilm();
-            }
-        }else{
-            inputAlert.showAlert("TITLEFIELD OR YEARFIELD EMPTY");
-        }
-    }
-
-    private void tryToEditFilm() {
-        if(!titlefield.getText().isEmpty()&&!yearField.getText().isEmpty()) {
-            Film editedFilm = userInterfaceController.getSelectedFilm();
-            try{
-            editedFilm.setTitle(titlefield.getText());
-            editedFilm.setDate(Integer.parseInt(yearField.getText()));
-            userInterfaceController.editFilm(editedFilm);
-            userInterfaceController.closeFilmDialogStage();}
-            catch(NumberFormatException e){
-                inputAlert.showAlert("INVALID YEAR");
-            }
-        }
-        else{
-        inputAlert.showAlert("TITLEFIELD OR YEARFIELD EMPTY");
-        }
-    }
-
-    private void tryToAddFilm() {
-        try {
-            userInterfaceController.addNewFilm(new Film(userInterfaceController.getUniqueFilmId(), Integer.parseInt(yearField.getText()), titlefield.getText()));
-            userInterfaceController.closeFilmDialogStage();
+        try{
+        if(fieldsAreValid()){
+            if(!isAddFilm)
+                tryToEditFilm(userInterfaceController.getSelectedFilm());
+            else
+                tryToAddFilm(new Film(userInterfaceController.getUniqueFilmId(), Integer.parseInt(yearField.getText()), titlefield.getText()));}
+        else
+            inputAlert.showAlert(EMPTY_ALERT);
         }
         catch (NumberFormatException e)
         {
-            inputAlert.showAlert("INVALID YEAR");
+            inputAlert.showAlert(YEAR_ALERT);
         }
     }
 
-    public void cancelButton(ActionEvent actionEvent) {
-        userInterfaceController.closeFilmDialogStage();
+    private boolean fieldsAreValid() {
+        return titlefield != null && yearField != null
+          && (!titlefield.getText().isEmpty() && !yearField.getText().isEmpty());
+    }
+
+    private void tryToEditFilm(Film editedFilm) throws NumberFormatException{
+        if(!titlefield.getText().isEmpty()&&!yearField.getText().isEmpty()) {
+            editedFilm.setTitle(titlefield.getText());
+            editedFilm.setDate(Integer.parseInt(yearField.getText()));
+            userInterfaceController.editFilm(editedFilm);
+            userInterfaceController.closeWindow();
+        }
+        else{
+        inputAlert.showAlert(EMPTY_ALERT);
+        }
+    }
+
+    private void tryToAddFilm(Film film) throws NumberFormatException {
+            userInterfaceController.addNewFilm(film);
+            userInterfaceController.closeWindow();
+    }
+
+    public void cancelButton() {
+        userInterfaceController.closeWindow();
     }
 }

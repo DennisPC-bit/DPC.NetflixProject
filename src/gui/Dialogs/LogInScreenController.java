@@ -11,9 +11,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 public class LogInScreenController {
-    public TextField searchUser;
-    public TableView userTable;
-    public TableColumn<User,String> userTableColumn;
+    @FXML
+    private TextField searchUser;
+    @FXML
+    private TableView userTable;
+    @FXML
+    private TableColumn<User,String> userTableColumn;
     @FXML
     private TextField idField;
     @FXML
@@ -34,12 +37,12 @@ public class LogInScreenController {
         this.userTableColumn.setCellValueFactory(cellData -> cellData.getValue().toSimpleStringProperty());
     }
 
-    public void setUserInterfaceController(UserInterfaceController userInterfaceController){
-        this.userInterfaceController=userInterfaceController;
-    }
-
     public int getUserId(){
         return userId;
+    }
+
+    public void setUserInterfaceController(UserInterfaceController userInterfaceController){
+        this.userInterfaceController=userInterfaceController;
     }
 
     public void confirmButton(ActionEvent actionEvent) {
@@ -51,7 +54,7 @@ public class LogInScreenController {
                 if(userId==user.getId()){
                     match=true;
                     userInterfaceController.setUser(user);
-                    userInterfaceController.CloseChangeUserStage();
+                    userInterfaceController.closeWindow();
                     break;
                 }
             }
