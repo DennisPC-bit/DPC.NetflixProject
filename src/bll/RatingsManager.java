@@ -29,6 +29,7 @@ public class RatingsManager {
 
     public void loadRatings(){ratingDAO.loadRatings();}
 
+    /*
     public int getUsersRatingsForFilm(User user,Film film){
         return ratingDAO.getUsersRatings(user, film);
     }
@@ -36,6 +37,7 @@ public class RatingsManager {
     public void setFilmRating(FilmRating filmRating, boolean save){
         ratingDAO.addFilmRating(filmRating, save);
     }
+     */
 
     public void saveRatings(){
         ratingDAO.saveRatings(true);

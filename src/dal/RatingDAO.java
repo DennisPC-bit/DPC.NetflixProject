@@ -17,6 +17,11 @@ public class RatingDAO {
     private RatingsManager ratingsManager;
     private ArrayList<FilmRating> userRatingsArrayList= new ArrayList<>();
     private ArrayList<FilmRating> userRatings= new ArrayList<>();
+    private boolean printmode=false;
+
+    public void setPrintmode(boolean printmode) {
+        this.printmode = printmode;
+    }
 
     public RatingDAO(RatingsManager ratingsManager){
         this.ratingsManager = ratingsManager;
@@ -38,6 +43,7 @@ public class RatingDAO {
         return ratingsArrayList;
     }
 
+    /*
     public void addFilmRating(FilmRating filmRating, boolean save){
         ratingsArrayList.sort(Comparator.comparingInt(FilmRating::getUserId));
         ratingsArrayList.removeIf(filmRating1 -> filmRating1.getUserId()==filmRating.getUserId()&&filmRating1.getFilmId()==filmRating.getFilmId());
@@ -52,6 +58,7 @@ public class RatingDAO {
         }
         return 0;
     }
+     */
 
     public void saveRatings(boolean save){
         if(save){
@@ -82,12 +89,13 @@ public class RatingDAO {
                 raf.writeInt(filmRating.getRating());
             }
             raf.seek(0);
+            if(printmode){
             System.out.println("Persons ratings:");
             String format = "%-10s%-10s%3s%n";
             System.out.printf(format,"FilmId", "UserId", "★");
             while(raf.getFilePointer()<raf.length()){
                 System.out.printf(format,raf.readInt(), raf.readInt(), raf.readInt());
-            }
+            }}
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -102,14 +110,17 @@ public class RatingDAO {
                     raf.skipBytes(4);
                     raf.writeInt(rating);
                     overWritten=true;
+                    if(printmode){
                     System.out.println("Film overwritten");
-                    System.out.printf("%-10s%-10s%3s%n",film.getId().getValue(),user.getId(),rating);
+                    System.out.printf("%-10s%-10s%3s%n",film.getId().getValue(),user.getId(),rating);}
                 }
                 else raf.skipBytes(8);
             }
             if(!overWritten){
+                if(printmode){
                 System.out.println("Added rating");
                 System.out.printf("%-10s%-10s%3s%n",film.getId().getValue(),user.getId(),rating);
+                }
                 raf.writeInt(film.getIntId());
                 raf.writeInt(user.getId());
                 raf.writeInt(rating);
@@ -141,6 +152,9 @@ public class RatingDAO {
         try(RandomAccessFile raf = new RandomAccessFile(file,"rw")) {
             while (raf.getFilePointer() < raf.length()) {
                 ratingsArrayList.add(new FilmRating(raf.readInt(),raf.readInt(), raf.readInt()));
+            }
+            if(printmode){
+                System.out.println("saved!");
             }
         }catch (IOException e) {
             e.printStackTrace();
