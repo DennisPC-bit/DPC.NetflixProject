@@ -1,6 +1,8 @@
 package be;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class SearchTool {
     public int binarySearch(int startPoint,int endPoint, int target){
@@ -103,5 +105,35 @@ public class SearchTool {
         }catch(ArrayIndexOutOfBoundsException e){
             return indexes;
         }
+    }
+
+    public ArrayList<FilmRating> binarySearchFilmRatingArray(ArrayList<FilmRating> ratings, User user){
+        ratings.sort(Comparator.comparingInt(FilmRating::getUserId));
+        int startPoint=0;
+        int endPoint=ratings.size()-1;
+        int midPoint=startPoint+(endPoint-startPoint)/2;
+        while(!ratings.isEmpty()) {
+            if(ratings.get(midPoint).getUserId() == user.getId()) {
+                break;
+            }
+            else if (ratings.get(midPoint).getUserId() < user.getId()) {
+                startPoint = midPoint;
+            }
+            else if (ratings.get(midPoint).getUserId() > user.getId()) {
+                endPoint = midPoint;
+            }
+            midPoint = startPoint + (endPoint - startPoint) / 2;
+        }
+        int firstHit=midPoint;
+        while(firstHit>=0&&ratings.get(firstHit).getUserId()==user.getId())
+            firstHit--;
+        int startIndex=firstHit;
+        while(midPoint<ratings.size()&&ratings.get(midPoint).getUserId()==user.getId())
+            midPoint++;
+        int endIndex=midPoint;
+
+        ArrayList<FilmRating> fittingRatings = new ArrayList<>(ratings.subList(startIndex+1, endIndex));
+        fittingRatings.sort(Comparator.comparingInt(FilmRating::getFilmId));
+        return fittingRatings;
     }
 }

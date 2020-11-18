@@ -79,11 +79,7 @@ public class RatingDAO {
         File file = new File(CURRENT_RATING_DATA_SOURCE);
         try(RandomAccessFile raf = new RandomAccessFile(file,"rw")){
             raf.setLength(0);
-            userRatingsArrayList.clear();
-            for(FilmRating filmRating:ratingsArrayList){
-                if(filmRating.getUserId()==user.getId())
-                    userRatingsArrayList.add(filmRating);}
-            for(FilmRating filmRating: userRatingsArrayList){
+            for(FilmRating filmRating: search(user)){
                 raf.writeInt(filmRating.getFilmId());
                 raf.writeInt(filmRating.getUserId());
                 raf.writeInt(filmRating.getRating());
@@ -99,6 +95,10 @@ public class RatingDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<FilmRating> search(User user){
+        return searchTool.binarySearchFilmRatingArray(ratingsArrayList,user);
     }
 
     public void setUsersRatingInFile(Film film, User user, int rating){
