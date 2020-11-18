@@ -1,9 +1,6 @@
 package gui;
 
-import be.Film;
-import be.FilmRating;
-import be.InputAlert;
-import be.User;
+import be.*;
 import bll.FilmManager;
 import bll.RatingsManager;
 import bll.UserManager;
@@ -53,7 +50,6 @@ public class UserInterfaceController {
     private AnchorPane sidePanel;
     private ObservableList<Film> films;
     private ObservableList<User> users;
-    private ObservableList<FilmRating> ratings;
     private boolean autoSave;
     private User user;
 
@@ -76,7 +72,7 @@ public class UserInterfaceController {
         this.movieIdColumn.setCellValueFactory(cellData -> cellData.getValue().getId());
     }
 
-    public void loadRatings(){this.ratings=FXCollections.observableArrayList(ratingsManager.loadRatings());}
+    public void loadRatings(){ratingsManager.loadRatings();}
     public void loadUsers(){this.users=FXCollections.observableArrayList(userManager.loadUsers()); }
     public void loadFilms(){
         this.films = FXCollections.observableArrayList(filmManager.loadFilms());
@@ -88,13 +84,14 @@ public class UserInterfaceController {
     public ObservableList<Film> getAllFilms() {return this.films;}
     public String getSelectedFilmTitle(){return getSelectedFilm().getTitle().getValue();}
     public String getSelectedFilmYear(){return getSelectedFilm().getDate().getValue().toString();}
-    public int getUsersFilmRating(User user, Film film){
-        return ratingsManager.getUsersRatingsForFilm(user,film);
+    public int getUsersFilmRating(Film film){
+        return ratingsManager.getUsersRatingFromFile(film);
     }
     public boolean getAutoSave(){return this.autoSave;}
 
     public void setUser(User user) {this.user = user;
-        rateButtons.setVisible(true);}
+        rateButtons.setVisible(true);
+        ratingsManager.initUsersRatingsToFile(user);}
 
     public void hideSideMenu() {
         sidePanel.setMaxWidth(0);
@@ -117,7 +114,7 @@ public class UserInterfaceController {
         filmLabel.setText(film.getTitle().getValue());
         dateLabel.setText(film.getDate().getValue().toString());
         if(this.user!=null)
-            ratingLabel.setText(ratingsManager.putStars(getUsersFilmRating(user,film)));
+            ratingLabel.setText(ratingsManager.putStars(getUsersFilmRating(film)));
         else
             ratingLabel.setText("Log in to Rate!");
     }
@@ -168,9 +165,10 @@ public class UserInterfaceController {
 
 
     public void deleteFilm() {
+        if(selectedFilm!=null){
         if(inputAlert.deleteAlert("Confirm deleting" + " (" + selectedFilm.getIntId() + ") " + selectedFilm.getTitle().getValue())){
             filmManager.deleteFilm(selectedFilm);
-            clearSearch();
+        }
         }
     }
 
@@ -190,7 +188,11 @@ public class UserInterfaceController {
     public void rateFive() {setRating(5);}
 
     private void setRating(int rating) {
-        if(user!=null)
-        ratingsManager.setFilmRating(new FilmRating(selectedFilm.getIntId(),user.getId(),rating),autoSave);
+        if(user!=null){
+        ratingsManager.setUsersRatingInFile(selectedFilm,user,rating);
+        if(autoSave)
+            ratingsManager.saveUsersRatingToMemory(user);
+            ratingsManager.saveRatings();
+        }
     }
 }

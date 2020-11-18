@@ -25,5 +25,4 @@ public class UserManager {
     }
 
     public ObservableList<User> searchForUser (String searchString){return userDAO.searchForUser(searchString);}
-
 }

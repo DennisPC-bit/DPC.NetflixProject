@@ -48,16 +48,17 @@ public class FilmManager {
         filmDAO.saveFilmChanges(save);
     }
 
-    public void deleteFilm(Film film) {
+    public ObservableList<Film> deleteFilm(Film film) {
         ObservableList<Film> films = userInterfaceController.getAllFilms();
         for(Film filmCheck: films){
             if(filmCheck.getIntId()== film.getIntId()){
                 films.remove(filmCheck);
                 films.sort(Comparator.comparingInt(Film::getIntId));
                 saveFilmChanges(userInterfaceController.getAutoSave());
-                break;
+                return  films;
             }
         }
+        return films;
     }
 
     public void editFilm(Film film) {
