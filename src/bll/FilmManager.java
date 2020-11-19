@@ -48,6 +48,7 @@ public class FilmManager {
         filmDAO.saveFilmChanges(save);
     }
 
+    //lav binær metode i stedet for lineær
     public ObservableList<Film> deleteFilm(Film film) {
         ObservableList<Film> films = userInterfaceController.getAllFilms();
         for(Film filmCheck: films){
@@ -61,6 +62,7 @@ public class FilmManager {
         return films;
     }
 
+    //lav binær metode i stedet for lineær
     public void editFilm(Film film) {
         ObservableList<Film> films = userInterfaceController.getAllFilms();
         for (Film filmCheck : films) {

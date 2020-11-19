@@ -11,21 +11,63 @@ import java.util.Comparator;
 
 public class RatingDAO {
     private final SearchTool searchTool = new SearchTool();
+    private final RatingsManager ratingsManager;
     private static final String RATINGS_DATA_SOURCE="data/ratings.txt";
-    private static final String CURRENT_RATING_DATA_SOURCE="data/ratings_current.data";
+    private static final String DATA_RATINGS_RECENT ="data/ratings_recent.data";
     private ArrayList<FilmRating> ratingsArrayList= new ArrayList<>();
-    private RatingsManager ratingsManager;
-    private ArrayList<FilmRating> userRatingsArrayList= new ArrayList<>();
-    private ArrayList<FilmRating> userRatings= new ArrayList<>();
-    private boolean printmode=true;
-    private ArrayList<FilmRating> ratingTest = new ArrayList<>();
-
-    public void setPrintmode(boolean printmode) {
-        this.printmode = printmode;
-    }
+    private boolean printMode =true;
 
     public RatingDAO(RatingsManager ratingsManager){
         this.ratingsManager = ratingsManager;
+    }
+
+    public void setPrintMode(boolean printMode) {
+        this.printMode = printMode;
+    }
+
+    public int getUsersRatingFromFile(Film film){
+        File file = new File(DATA_RATINGS_RECENT);
+        try(RandomAccessFile raf = new RandomAccessFile(file,"r")){
+            while(raf.getFilePointer()<raf.length()){
+                if(raf.readInt()==film.getIntId()){
+                    raf.skipBytes(4);
+                    return raf.readInt();
+                }
+                else raf.skipBytes(8);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public void setUsersRatingInFile(Film film, User user, int rating){
+        File file = new File(DATA_RATINGS_RECENT);
+        try(RandomAccessFile raf = new RandomAccessFile(file,"rws")){
+            boolean overWritten=false;
+            while(raf.getFilePointer()<raf.length()&&!overWritten){
+                if(raf.readInt()==film.getIntId()){
+                    raf.skipBytes(4);
+                    raf.writeInt(rating);
+                    overWritten=true;
+                    if(printMode){
+                        System.out.println("Film overwritten");
+                        System.out.printf("%-10s%-10s%3s%n",film.getId().getValue(),user.getId(),rating);}
+                }
+                else raf.skipBytes(8);
+            }
+            if(!overWritten){
+                if(printMode){
+                    System.out.println("Added rating");
+                    System.out.printf("%-10s%-10s%3s%n",film.getId().getValue(),user.getId(),rating);
+                }
+                raf.writeInt(film.getIntId());
+                raf.writeInt(user.getId());
+                raf.writeInt(rating);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<FilmRating> loadRatings() {
@@ -41,27 +83,11 @@ public class RatingDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        findFilmRatingInDataFile(7);
         return ratingsArrayList;
     }
 
-    public void saveRatings(boolean save){
-        if(save){
-        ratingsArrayList.sort(Comparator.comparingInt(FilmRating::getFilmId));
-        File file = new File(RATINGS_DATA_SOURCE);
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
-            for(FilmRating filmRating:ratingsArrayList){
-                bw.write(ratingsManager.inverseParseRating(filmRating));
-                bw.newLine();
-            }
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        }
-    }
-
     public void initUsersRatingsToFile(User user){
-        File file = new File(CURRENT_RATING_DATA_SOURCE);
+        File file = new File(DATA_RATINGS_RECENT);
         try(RandomAccessFile raf = new RandomAccessFile(file,"rw")){
             raf.setLength(0);
             for(FilmRating filmRating: search(user)){
@@ -70,7 +96,7 @@ public class RatingDAO {
                 raf.writeInt(filmRating.getRating());
             }
             raf.seek(0);
-            if(printmode){
+            if(printMode){
             System.out.println("Persons ratings:");
             String format = "%-10s%-10s%3s%4d%n";
             System.out.printf(format,"FilmId", "UserId", "★",42);
@@ -78,73 +104,44 @@ public class RatingDAO {
             while(raf.getFilePointer()<raf.length()){
                 System.out.printf(format,raf.readInt(), raf.readInt(), raf.readInt(),i);
                 i++;
-            }}
+            }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public ArrayList<FilmRating> search(User user){
-        return searchTool.binarySearchFilmRatingArray(ratingsArrayList,user);
-    }
-
-    public void setUsersRatingInFile(Film film, User user, int rating){
-        File file = new File(CURRENT_RATING_DATA_SOURCE);
-        try(RandomAccessFile raf = new RandomAccessFile(file,"rws")){
-            boolean overWritten=false;
-            while(raf.getFilePointer()<raf.length()&&!overWritten){
-                if(raf.readInt()==film.getIntId()){
-                    raf.skipBytes(4);
-                    raf.writeInt(rating);
-                    overWritten=true;
-                    if(printmode){
-                    System.out.println("Film overwritten");
-                    System.out.printf("%-10s%-10s%3s%n",film.getId().getValue(),user.getId(),rating);}
-                }
-                else raf.skipBytes(8);
-            }
-            if(!overWritten){
-                if(printmode){
-                System.out.println("Added rating");
-                System.out.printf("%-10s%-10s%3s%n",film.getId().getValue(),user.getId(),rating);
-                }
-                raf.writeInt(film.getIntId());
-                raf.writeInt(user.getId());
-                raf.writeInt(rating);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public int getUsersRatingFromFile(Film film){
-        File file = new File(CURRENT_RATING_DATA_SOURCE);
-        try(RandomAccessFile raf = new RandomAccessFile(file,"r")){
-            while(raf.getFilePointer()<raf.length()){
-                if(raf.readInt()==film.getIntId()){
-                    raf.skipBytes(4);
-                    return raf.readInt();
-                }
-                else raf.skipBytes(8);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return -1;
+        return searchTool.binarySearchFilmRatingArray(ratingsArrayList,user.getId());
     }
 
     public void saveUsersRatingInMemory(User user){
-        File file = new File(CURRENT_RATING_DATA_SOURCE);
+        File file = new File(DATA_RATINGS_RECENT);
         ratingsArrayList.removeIf(filmRating -> filmRating.getUserId() == user.getId());
         try(RandomAccessFile raf = new RandomAccessFile(file,"rw")) {
             while (raf.getFilePointer() < raf.length()) {
                 ratingsArrayList.add(new FilmRating(raf.readInt(),raf.readInt(), raf.readInt()));
             }
-            if(printmode){
+            if(printMode){
                 System.out.println("saved!");
             }
         }catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void saveRatings(boolean save){
+        if(save){
+            ratingsArrayList.sort(Comparator.comparingInt(FilmRating::getFilmId));
+            File file = new File(RATINGS_DATA_SOURCE);
+            try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
+                for(FilmRating filmRating:ratingsArrayList){
+                    bw.write(ratingsManager.inverseParseRating(filmRating));
+                    bw.newLine();
+                }
+            }catch (IOException e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -163,6 +160,7 @@ public class RatingDAO {
     }
 
     public ArrayList<FilmRating> findFilmRatingInDataFile(int target){
+        ArrayList<FilmRating> ratingTest = new ArrayList<>();
         File file = new File("data/newFile.data");
         try(RandomAccessFile raf = new RandomAccessFile(file,"r")){
             long startPoint=0;
@@ -175,7 +173,7 @@ public class RatingDAO {
                 raf.skipBytes(4);
                 int shot = raf.readInt();
                 if (shot == target){
-                    if(printmode)
+                    if(printMode)
                     System.out.println("hit!");
                     hit=true;}
                 if (shot < target)
@@ -189,7 +187,7 @@ public class RatingDAO {
             }
             if(hit){
                 long firstHit=raf.getFilePointer();
-                if(printmode)
+                if(printMode)
                 System.out.println(firstHit);
                 raf.seek(firstHit);
                 long startIndex=0;
@@ -198,7 +196,7 @@ public class RatingDAO {
                     raf.seek(raf.getFilePointer()-16);
                     if(raf.readInt()!=target||raf.getFilePointer()<=16){
                         startIndex=raf.getFilePointer();
-                        if(printmode)
+                        if(printMode)
                         System.out.println(startIndex);
                         break;
                     }
@@ -209,7 +207,7 @@ public class RatingDAO {
                     long lol = raf.readInt();
                     if(lol!=target||raf.getFilePointer()>=raf.length()-8){
                         endIndex=raf.getFilePointer()-8;
-                        if(printmode)
+                        if(printMode)
                         System.out.println(endIndex);
                         break;
                     }
@@ -217,7 +215,7 @@ public class RatingDAO {
                 raf.seek(startIndex-8);
                 while(raf.getFilePointer()<endIndex)
                     ratingTest.add(ratingsManager.parseRatingFromBinary(raf.readInt(),raf.readInt(),raf.readInt()));
-                if(printmode){
+                if(printMode){
                 for(FilmRating filmRating : ratingTest)
                     System.out.println(filmRating.getFilmId() + " " + filmRating.getUserId() + " " + filmRating.getRating());
                 }

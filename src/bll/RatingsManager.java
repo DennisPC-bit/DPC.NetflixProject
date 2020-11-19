@@ -11,11 +11,19 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class RatingsManager {
-    private UserInterfaceController userInterfaceController;
-    RatingDAO ratingDAO = new RatingDAO(this);
+    private final RatingDAO ratingDAO = new RatingDAO(this);
+    private final UserInterfaceController userInterfaceController;
 
-    public RatingsManager(UserInterfaceController userInterfaceController){
+    public RatingsManager(UserInterfaceController userInterfaceController) {
         this.userInterfaceController=userInterfaceController;
+    }
+
+    public int getUsersRatingFromFile(Film film){
+        return ratingDAO.getUsersRatingFromFile(film);
+    }
+
+    public void setUsersRatingInFile(Film film,User user,int rating){
+        ratingDAO.setUsersRatingInFile(film, user, rating);
     }
 
     public FilmRating parseRating(String input){
@@ -32,17 +40,6 @@ public class RatingsManager {
 
     public void loadRatings(){ratingDAO.loadRatings();}
 
-    /*
-    public int getUsersRatingsForFilm(User user,Film film){
-        return ratingDAO.getUsersRatings(user, film);
-    }
-
-    public void setFilmRating(FilmRating filmRating, boolean save){
-        ratingDAO.addFilmRating(filmRating, save);
-    }
-     */
-
-
     public String putStars(int rating){
         switch(rating){
             case -5 -> {return "★☆☆☆☆";}
@@ -56,14 +53,6 @@ public class RatingsManager {
 
     public void initUsersRatingsToFile(User user){
         ratingDAO.initUsersRatingsToFile(user);
-    }
-
-    public int getUsersRatingFromFile(Film film){
-        return ratingDAO.getUsersRatingFromFile(film);
-    }
-
-    public void setUsersRatingInFile(Film film,User user,int rating){
-        ratingDAO.setUsersRatingInFile(film, user, rating);
     }
 
     public void saveUsersRatingToMemory(User user){

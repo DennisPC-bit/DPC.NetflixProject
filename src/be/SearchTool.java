@@ -136,4 +136,34 @@ public class SearchTool {
         fittingRatings.sort(Comparator.comparingInt(FilmRating::getFilmId));
         return fittingRatings;
     }
+
+    public ArrayList<FilmRating> binarySearchFilmRatingArray(ArrayList<FilmRating> ratings, int userId){
+        ratings.sort(Comparator.comparingInt(FilmRating::getUserId));
+        int startPoint=0;
+        int endPoint=ratings.size()-1;
+        int midPoint=startPoint+(endPoint-startPoint)/2;
+        while(!ratings.isEmpty()) {
+            if(ratings.get(midPoint).getUserId() == userId) {
+                break;
+            }
+            else if (ratings.get(midPoint).getUserId() < userId) {
+                startPoint = midPoint;
+            }
+            else if (ratings.get(midPoint).getUserId() > userId) {
+                endPoint = midPoint;
+            }
+            midPoint = startPoint + (endPoint - startPoint) / 2;
+        }
+        int firstHit=midPoint;
+        while(firstHit>=0&&ratings.get(firstHit).getUserId() == userId)
+            firstHit--;
+        int startIndex=firstHit;
+        while(midPoint<ratings.size()&&ratings.get(midPoint).getUserId() == userId)
+            midPoint++;
+        int endIndex=midPoint;
+
+        ArrayList<FilmRating> fittingRatings = new ArrayList<>(ratings.subList(startIndex+1, endIndex));
+        fittingRatings.sort(Comparator.comparingInt(FilmRating::getFilmId));
+        return fittingRatings;
+    }
 }

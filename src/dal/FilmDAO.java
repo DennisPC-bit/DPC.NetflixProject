@@ -9,10 +9,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class FilmDAO {
-
+    private final FilmManager filmManager;
     private static final String FILM_SOURCE = "data/movie_titles.txt";
     ArrayList<Film> films = new ArrayList<>();
-    private FilmManager filmManager;
 
     public FilmDAO(FilmManager filmManager){
         this.filmManager = filmManager;
