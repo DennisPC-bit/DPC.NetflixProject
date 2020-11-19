@@ -40,6 +40,7 @@ public class RatingDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        findFilmRatingInDataFile(7);
         return ratingsArrayList;
     }
 
@@ -157,6 +158,69 @@ public class RatingDAO {
                 System.out.println("saved!");
             }
         }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void makeFilmRatingDataFile(){
+        File file = new File("data/newFile.data");
+        try(RandomAccessFile raf = new RandomAccessFile(file,"rw")){
+            ratingsArrayList.sort(Comparator.comparingInt(FilmRating::getUserId));
+            for(FilmRating filmRating : ratingsArrayList){
+                raf.writeInt(filmRating.getFilmId());
+                raf.writeInt(filmRating.getUserId());
+                raf.writeInt(filmRating.getRating());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void findFilmRatingInDataFile(int target){
+        File file = new File("data/newFile.data");
+        try(RandomAccessFile raf = new RandomAccessFile(file,"r")){
+            long startPoint=0;
+            long endPoint=raf.length();
+            long midPoint=startPoint+(endPoint-startPoint)/24;
+            int tries = 100;
+            boolean hit=false;
+            while(tries>0&&!hit) {
+                raf.seek(midPoint*12);
+                raf.skipBytes(4);
+                int shot = raf.readInt();
+                if (shot == target){
+                System.out.println("hit!");
+                hit=true;}
+                if (raf.readInt() < target)
+                    startPoint = midPoint;
+                if (raf.readInt() > target)
+                    endPoint = midPoint;
+                midPoint = (startPoint + (endPoint - startPoint) / 2)/12;
+                while(midPoint%12!=0)
+                    midPoint++;
+                tries--;
+            }
+            long firstHit=raf.getFilePointer()-4;
+            System.out.println(firstHit);
+            raf.seek(firstHit-4);
+            boolean stillHit = true;
+            while(stillHit){
+                raf.seek(raf.getFilePointer()-16);
+                if(raf.readInt()!=target||raf.getFilePointer()<=16){
+                    stillHit=false;
+                    System.out.println(raf.getFilePointer());
+                }
+            }
+            raf.seek(firstHit+8);
+            boolean stillHitUpper=true;
+            while(stillHitUpper){
+                raf.seek(raf.getFilePointer()+8);
+                if(raf.readInt()!=target||raf.getFilePointer()>=raf.length()-8){
+                    stillHitUpper=false;
+                    System.out.println(raf.getFilePointer());
+                }
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
