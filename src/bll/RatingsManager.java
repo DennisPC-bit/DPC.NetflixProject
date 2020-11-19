@@ -22,6 +22,9 @@ public class RatingsManager {
         String[] rating=input.split(",");
         return new FilmRating(Integer.parseInt(rating[0]), Integer.parseInt(rating[1]), Integer.parseInt(rating[2]));
     }
+    public FilmRating parseRatingFromBinary(int input,int input2, int input3){
+        return new FilmRating(input, input2, input3);
+    }
 
     public String inverseParseRating(FilmRating filmRating){
         return filmRating.getFilmId() + "," + filmRating.getUserId() + "," + filmRating.getRating();
@@ -39,9 +42,6 @@ public class RatingsManager {
     }
      */
 
-    public void saveRatings(){
-        ratingDAO.saveRatings(true);
-    }
 
     public String putStars(int rating){
         switch(rating){
@@ -68,5 +68,8 @@ public class RatingsManager {
 
     public void saveUsersRatingToMemory(User user){
         ratingDAO.saveUsersRatingInMemory(user);
+    }
+    public void saveRatings(){
+        ratingDAO.saveRatings(true);
     }
 }

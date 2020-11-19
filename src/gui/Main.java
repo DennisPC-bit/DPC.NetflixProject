@@ -13,6 +13,7 @@ public class Main extends Application {
         primaryStage.setTitle("Netflix");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+        primaryStage.close();
     }
 
     public static void main(String[] args) {

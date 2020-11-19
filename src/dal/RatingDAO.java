@@ -17,7 +17,8 @@ public class RatingDAO {
     private RatingsManager ratingsManager;
     private ArrayList<FilmRating> userRatingsArrayList= new ArrayList<>();
     private ArrayList<FilmRating> userRatings= new ArrayList<>();
-    private boolean printmode=false;
+    private boolean printmode=true;
+    private ArrayList<FilmRating> ratingTest = new ArrayList<>();
 
     public void setPrintmode(boolean printmode) {
         this.printmode = printmode;
@@ -43,23 +44,6 @@ public class RatingDAO {
         findFilmRatingInDataFile(7);
         return ratingsArrayList;
     }
-
-    /*
-    public void addFilmRating(FilmRating filmRating, boolean save){
-        ratingsArrayList.sort(Comparator.comparingInt(FilmRating::getUserId));
-        ratingsArrayList.removeIf(filmRating1 -> filmRating1.getUserId()==filmRating.getUserId()&&filmRating1.getFilmId()==filmRating.getFilmId());
-        ratingsArrayList.add(filmRating);
-        saveRatings(save);
-    }
-
-    public int getUsersRatings(User user, Film film) {
-        for (FilmRating filmRating : ratingsArrayList) {
-            if (filmRating.getUserId() == user.getId() && filmRating.getFilmId() == film.getIntId()){
-                return filmRating.getRating();}
-        }
-        return 0;
-    }
-     */
 
     public void saveRatings(boolean save){
         if(save){
@@ -88,10 +72,12 @@ public class RatingDAO {
             raf.seek(0);
             if(printmode){
             System.out.println("Persons ratings:");
-            String format = "%-10s%-10s%3s%n";
-            System.out.printf(format,"FilmId", "UserId", "★");
+            String format = "%-10s%-10s%3s%4d%n";
+            System.out.printf(format,"FilmId", "UserId", "★",42);
+            int i=1;
             while(raf.getFilePointer()<raf.length()){
-                System.out.printf(format,raf.readInt(), raf.readInt(), raf.readInt());
+                System.out.printf(format,raf.readInt(), raf.readInt(), raf.readInt(),i);
+                i++;
             }}
         } catch (IOException e) {
             e.printStackTrace();
@@ -176,50 +162,82 @@ public class RatingDAO {
         }
     }
 
-    public void findFilmRatingInDataFile(int target){
+    public ArrayList<FilmRating> findFilmRatingInDataFile(int target){
         File file = new File("data/newFile.data");
         try(RandomAccessFile raf = new RandomAccessFile(file,"r")){
             long startPoint=0;
             long endPoint=raf.length();
-            long midPoint=startPoint+(endPoint-startPoint)/24;
+            long midPoint=startPoint+(endPoint-startPoint)/2;
             int tries = 100;
             boolean hit=false;
             while(tries>0&&!hit) {
-                raf.seek(midPoint*12);
+                raf.seek(midPoint);
                 raf.skipBytes(4);
                 int shot = raf.readInt();
                 if (shot == target){
-                System.out.println("hit!");
-                hit=true;}
-                if (raf.readInt() < target)
+                    if(printmode)
+                    System.out.println("hit!");
+                    hit=true;}
+                if (shot < target)
                     startPoint = midPoint;
-                if (raf.readInt() > target)
+                if (shot > target)
                     endPoint = midPoint;
-                midPoint = (startPoint + (endPoint - startPoint) / 2)/12;
+                midPoint = (startPoint + (endPoint - startPoint) / 2);
                 while(midPoint%12!=0)
                     midPoint++;
                 tries--;
             }
-            long firstHit=raf.getFilePointer()-4;
-            System.out.println(firstHit);
-            raf.seek(firstHit-4);
-            boolean stillHit = true;
-            while(stillHit){
-                raf.seek(raf.getFilePointer()-16);
-                if(raf.readInt()!=target||raf.getFilePointer()<=16){
-                    stillHit=false;
-                    System.out.println(raf.getFilePointer());
+            if(hit){
+                long firstHit=raf.getFilePointer();
+                if(printmode)
+                System.out.println(firstHit);
+                raf.seek(firstHit);
+                long startIndex=0;
+                long endIndex=0;
+                while(true){
+                    raf.seek(raf.getFilePointer()-16);
+                    if(raf.readInt()!=target||raf.getFilePointer()<=16){
+                        startIndex=raf.getFilePointer();
+                        if(printmode)
+                        System.out.println(startIndex);
+                        break;
+                    }
                 }
-            }
-            raf.seek(firstHit+8);
-            boolean stillHitUpper=true;
-            while(stillHitUpper){
-                raf.seek(raf.getFilePointer()+8);
-                if(raf.readInt()!=target||raf.getFilePointer()>=raf.length()-8){
-                    stillHitUpper=false;
-                    System.out.println(raf.getFilePointer());
+                raf.seek(firstHit);
+                while(true){
+                    raf.skipBytes(8);
+                    long lol = raf.readInt();
+                    if(lol!=target||raf.getFilePointer()>=raf.length()-8){
+                        endIndex=raf.getFilePointer()-8;
+                        if(printmode)
+                        System.out.println(endIndex);
+                        break;
+                    }
                 }
+                raf.seek(startIndex-8);
+                while(raf.getFilePointer()<endIndex)
+                    ratingTest.add(ratingsManager.parseRatingFromBinary(raf.readInt(),raf.readInt(),raf.readInt()));
+                if(printmode){
+                for(FilmRating filmRating : ratingTest)
+                    System.out.println(filmRating.getFilmId() + " " + filmRating.getUserId() + " " + filmRating.getRating());
+                }
+                return ratingTest;
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void makeTailFile(int c){
+        File file = new File("data/newFileTail.data");
+        File file2 = new File("data/newFile.data");
+        try(RandomAccessFile raf = new RandomAccessFile(file,"rw");
+            RandomAccessFile rafOrg = new RandomAccessFile(file,"rw")){
+            rafOrg.seek(c);
+            while(raf.getFilePointer()<raf.length()-c)
+                raf.writeInt(rafOrg.readInt());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
