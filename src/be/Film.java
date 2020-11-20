@@ -1,6 +1,11 @@
 package be;
 import javafx.beans.property.*;
 
+/*
+ *
+ *@author DennisPC-bit
+ */
+
 public class Film {
     private SimpleIntegerProperty id;
     private SimpleIntegerProperty date;

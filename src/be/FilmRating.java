@@ -1,5 +1,10 @@
 package be;
 
+/*
+ *
+ *@author DennisPC-bit
+ */
+
 public class FilmRating {
     private int rating;
     private int filmId;

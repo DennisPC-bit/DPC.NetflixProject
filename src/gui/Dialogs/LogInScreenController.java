@@ -9,6 +9,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
+/*
+ *
+ *@author DennisPC-bit
+ */
+
 public class LogInScreenController {
     private UserInterfaceController userInterfaceController = new UserInterfaceController();
     private final InputAlert inputAlert = new InputAlert();

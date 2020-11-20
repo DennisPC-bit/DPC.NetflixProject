@@ -9,6 +9,11 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/*
+ *
+ *@author DennisPC-bit
+ */
+
 public class RatingDAO {
     private final SearchTool searchTool = new SearchTool();
     private final RatingsManager ratingsManager;

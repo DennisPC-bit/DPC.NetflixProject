@@ -1,6 +1,7 @@
 package bll;
 
 import be.Film;
+import be.InputAlert;
 import be.SearchTool;
 import dal.FilmDAO;
 import gui.UserInterfaceController;
@@ -9,12 +10,17 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/*
+ *
+ *@author DennisPC-bit
+ */
+
 public class FilmManager {
-    private String filmData;
     private String[] film;
-    private FilmDAO filmDAO = new FilmDAO(this);
-    private UserInterfaceController userInterfaceController;
+    private final FilmDAO filmDAO = new FilmDAO(this);
+    private final UserInterfaceController userInterfaceController;
     private final SearchTool searchTool = new SearchTool();
+    private final InputAlert inputAlert = new InputAlert();
 
     public FilmManager(UserInterfaceController userInterfaceController){
         this.userInterfaceController=userInterfaceController;
@@ -28,7 +34,6 @@ public class FilmManager {
     }
 
     public Film parseFilm(String filmData) {
-        this.filmData = filmData;
         if (filmData != null) {
             film = filmData.split(",");
             if (film.length >= 2)
@@ -52,7 +57,9 @@ public class FilmManager {
 
     public void deleteFilm(Film film) {
         ObservableList<Film> films = userInterfaceController.getAllFilms();
-        films.remove(searchTool.binarySearchFilmArray(films,film.getIntId()));
+        Film filmInFilms = searchTool.binarySearchFilmArray(films,film.getIntId());
+        if(filmInFilms!=null)
+        films.remove(filmInFilms);
         films.sort(Comparator.comparingInt(Film::getIntId));
         saveFilmChanges(userInterfaceController.getAutoSave());
     }

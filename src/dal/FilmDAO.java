@@ -8,6 +8,11 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/*
+ *
+ *@author DennisPC-bit
+ */
+
 public class FilmDAO {
     private final FilmManager filmManager;
     private static final String FILM_SOURCE = "data/movie_titles.txt";

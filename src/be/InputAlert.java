@@ -1,5 +1,10 @@
 package be;
 
+/*
+ *
+ *@author DennisPC-bit
+ */
+
 import javafx.scene.control.Alert;
 
 public class InputAlert {

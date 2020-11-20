@@ -11,6 +11,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
+/*
+ *
+ *@author DennisPC-bit
+ */
+
 public class UserInterfaceController {
 
     public UserInterfaceController(){
@@ -93,7 +98,7 @@ public class UserInterfaceController {
         rateButtons.setVisible(true);
         ratingsManager.initUsersRatingsToFile(user);}
 
-    public void hideSideMenu() {
+    public void hideSideMenuAndResetUser() {
         sidePanel.setMaxWidth(0);
         sidePanel.setMinWidth(0);
         this.user=null;
@@ -125,6 +130,7 @@ public class UserInterfaceController {
 
     public void searchWithKey() {
         searchForFilm(searchField.getText()); }
+
     public void clearSearch() {searchField.setText("");
     searchForFilm(searchField.getText());}
 

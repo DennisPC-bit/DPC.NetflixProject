@@ -10,6 +10,11 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/*
+ *
+ *@author DennisPC-bit
+ */
+
 public class RatingsManager {
     private final RatingDAO ratingDAO = new RatingDAO(this);
     private final UserInterfaceController userInterfaceController;

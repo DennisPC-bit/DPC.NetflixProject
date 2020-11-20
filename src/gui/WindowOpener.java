@@ -11,8 +11,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/*
+ *
+ *@author DennisPC-bit
+ */
+
 public class WindowOpener {
-    private UserInterfaceController userInterfaceController;
+    private final UserInterfaceController userInterfaceController;
     private String path;
     private Stage windowStage;
 

@@ -7,6 +7,11 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
+/*
+ *
+ *@author DennisPC-bit
+ */
+
 public class UserManager {
     private UserDAO userDAO=new UserDAO(this);
     private UserInterfaceController userInterfaceController;

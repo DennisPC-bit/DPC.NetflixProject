@@ -7,6 +7,11 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+/*
+ *
+ *@author DennisPC-bit
+ */
+
 public class FilmDialogController {
     public TextField titleField;
     public TextField yearField;

@@ -30,7 +30,7 @@
                            <left>
                               <AnchorPane BorderPane.alignment="CENTER">
                                  <children>
-                                    <Button fx:id="hideSideMenu" maxHeight="25.0" mnemonicParsing="false" onAction="#hideSideMenu" text="X" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Button fx:id="hideSideMenuAndResetUser" maxHeight="25.0" mnemonicParsing="false" onAction="#hideSideMenuAndResetUser" text="X" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                            </left>

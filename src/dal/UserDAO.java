@@ -1,13 +1,16 @@
 package dal;
-import be.Film;
 import be.User;
 import bll.UserManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
+
+/*
+ *
+ *@author DennisPC-bit
+ */
 
 public class UserDAO {
     private static final String USER_DATA_SOURCE="data/users.txt";

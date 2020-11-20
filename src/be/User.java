@@ -1,5 +1,10 @@
 package be;
 
+/*
+ *
+ *@author DennisPC-bit
+ */
+
 import javafx.beans.property.SimpleStringProperty;
 
 public class User {
