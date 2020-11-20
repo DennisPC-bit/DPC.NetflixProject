@@ -15,7 +15,7 @@ public class RatingDAO {
     private static final String RATINGS_DATA_SOURCE="data/ratings.txt";
     private static final String DATA_RATINGS_RECENT ="data/ratings_recent.data";
     private ArrayList<FilmRating> ratingsArrayList= new ArrayList<>();
-    private boolean printMode =true;
+    private boolean printMode = false;
 
     public RatingDAO(RatingsManager ratingsManager){
         this.ratingsManager = ratingsManager;

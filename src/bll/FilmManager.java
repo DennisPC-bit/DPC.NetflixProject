@@ -1,6 +1,7 @@
 package bll;
 
 import be.Film;
+import be.SearchTool;
 import dal.FilmDAO;
 import gui.UserInterfaceController;
 import javafx.collections.ObservableList;
@@ -13,6 +14,7 @@ public class FilmManager {
     private String[] film;
     private FilmDAO filmDAO = new FilmDAO(this);
     private UserInterfaceController userInterfaceController;
+    private final SearchTool searchTool = new SearchTool();
 
     public FilmManager(UserInterfaceController userInterfaceController){
         this.userInterfaceController=userInterfaceController;
@@ -48,32 +50,19 @@ public class FilmManager {
         filmDAO.saveFilmChanges(save);
     }
 
-    //lav binær metode i stedet for lineær
-    public ObservableList<Film> deleteFilm(Film film) {
+    public void deleteFilm(Film film) {
         ObservableList<Film> films = userInterfaceController.getAllFilms();
-        for(Film filmCheck: films){
-            if(filmCheck.getIntId()== film.getIntId()){
-                films.remove(filmCheck);
-                films.sort(Comparator.comparingInt(Film::getIntId));
-                saveFilmChanges(userInterfaceController.getAutoSave());
-                return  films;
-            }
-        }
-        return films;
+        films.remove(searchTool.binarySearchFilmArray(films,film.getIntId()));
+        films.sort(Comparator.comparingInt(Film::getIntId));
+        saveFilmChanges(userInterfaceController.getAutoSave());
     }
 
-    //lav binær metode i stedet for lineær
     public void editFilm(Film film) {
         ObservableList<Film> films = userInterfaceController.getAllFilms();
-        for (Film filmCheck : films) {
-            if (filmCheck.getIntId() == film.getIntId()) {
-                films.remove(filmCheck);
-                films.add(film);
-                films.sort(Comparator.comparingInt(Film::getIntId));
-                saveFilmChanges(userInterfaceController.getAutoSave());
-                break;
-            }
-        }
+        films.remove(searchTool.binarySearchFilmArray(films,film.getIntId()));
+        films.add(film);
+        films.sort(Comparator.comparingInt(Film::getIntId));
+        saveFilmChanges(userInterfaceController.getAutoSave());
     }
 
     public void addFilm(Film film){
