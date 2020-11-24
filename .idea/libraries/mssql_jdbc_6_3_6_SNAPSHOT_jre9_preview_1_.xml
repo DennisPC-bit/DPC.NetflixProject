@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="mssql-jdbc-6.3.6-SNAPSHOT.jre9-preview(1)">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/.idea/libraries/mssql-jdbc-6.3.6-SNAPSHOT.jre9-preview(1).jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

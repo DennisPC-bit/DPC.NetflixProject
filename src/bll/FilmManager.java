@@ -6,7 +6,6 @@ import be.SearchTool;
 import dal.FilmDAO;
 import gui.UserInterfaceController;
 import javafx.collections.ObservableList;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 
